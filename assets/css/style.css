@@ -191,7 +191,6 @@
 
 /* program title */
 .pr-title{
-    color: #fff;
     font-family: 'KoPub Batang', serif;
     text-align: center;
     margin-top: 130px;
@@ -205,48 +204,134 @@
     margin-bottom: 46.17px;
 }
 
-.pr-tit{
-    align-items: flex-start;
-    margin-bottom: 8px;
-    
+.ticket-area{
+    width: 100%;
+    max-width: 897px;
 }
 
 .pr-tit{
-    color: #fff;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 8px;
+    font-family: 'Pretendard';
+    font-weight: 300;
 }
 
 /* program ticket */
+.ticket-premium{
+    position: relative;
+    width: 100%;
+    max-width: 897px;
+    margin: 0 auto;
+    gap: 16px;
+}
 
-/* .ticket-content{
+.ticket-basic{
+    position: relative;
+    width: 100%;
+    max-width: 897px;
+    margin: 0 auto;
+
+}
+
+.ticket-content{
     position: absolute;
     inset: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-} */
-
-.ticket-premium{
-    position: relative;
-    max-width: 897px;
+    padding: 40px 30px 40px 100px;
+    box-sizing: border-box;
+    z-index: 2;
 }
 
 .tic-medal{
     position: absolute;
-    top: -20%;
-    right: -20%;
-    width: 80px;
-    z-index: 2;
+    top: -11%;
+    right: 5%;
+    width: 100px;
+    z-index: 4;
 }
 
 .ticket-bg{
+    position: relative;
     width: 100%;
     display: block;
+    z-index: 1;
 }
 
 .ticket-left{
-    inset: 0;
+    width: 60%;
     display: flex;
     flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.tic-line{
+    top: 50%;
+    width: 1px;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    margin: 0 35px 0 20px;
+    z-index: 3;
+}
+
+.ticket-right{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.ticket-left h2{
+    font-family: 'Pretendard';
+    font-weight: 700;
+}
+
+.ticket-left ul{
+    font-family: 'Pretendard';
+    font-weight: 400;
+}
+
+.left-ff{
+    font-family: 'Pretendard';
+    font-weight: 500;
+}
+
+.bf-num{
+    font-size: 50px;
+    color: #8C949A;
+    text-decoration: line-through;
+}
+
+.bf-text{
+    font-size: 20px;
+    color: #8C949A;
+}
+
+.af-num{
+    font-size: 70px;
+}
+
+.af-text{
+    font-size: 40px;
+}
+
+.btn{
+    border-radius: 100px;
+    padding: 0 20px;
+    background-color: #EB5F85;
+    display: flex;
+    width: 200px;
+    height: 68px;
+    box-sizing: border-box;
+    align-items: center;
     justify-content: center;
-    padding: 40px;
+}
+
+.arrow{
+    width: 12px;
+    height: 22px;
+    margin-left: 20px;
 }
