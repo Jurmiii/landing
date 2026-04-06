@@ -29,12 +29,9 @@
 }
 
 .kv__section{
-    display: flex;
     max-width: 1244px;
-    min-height: 827px;
+    height: auto;
     margin: 0 auto;
-    display: flex;
-    align-items: flex-end;
 }
 
 .kv-wrap{
@@ -88,34 +85,6 @@
     display: block;
     width: 100%;
     height: auto;
-}
-
-/* Responsive */
-@media(max-width:768px){
-    .kv-section{
-        align-items: center;
-    }
-
-    .kv-wrap{
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding-bottom: 30px;
-    }
-
-    .kv-text{
-        width: 100%;
-        align-items: center;
-    }
-
-    .kv-img{
-        width: 80%;
-        margin-top: 40%;
-    }
-
-    .kv-line{
-        margin: 30px 0;
-    }
 }
 
 /* about section */
@@ -390,6 +359,7 @@
 .ba__section{
     max-width: 1244px;
     margin: 0 auto;
+    display: flex;
 }
 
 .ba-wrap{
@@ -407,21 +377,18 @@
 .ba-title h2{
     font-family: 'Pretendard';
     font-weight: 300;
-    margin-bottom: 55px;
 }
 
 /* before & after images */
 .ba-wrap{
- display: flex;
- justify-content: center;
- gap: 40px;
+ gap: 55px;
  width: 100%;
 }
 
 .ba-images{
     display: flex;
     justify-content: center;
-    align-items: center;
+
     width: 100%;
     gap: 15px;
 }
@@ -445,4 +412,64 @@
 .ba-text{
     font-family: 'Pretendard';
     font-weight: 300;
+}
+
+
+
+
+
+
+
+/* kv Responsive */
+@media(max-width:1920px){
+    .kv-section{
+        width: 100%;
+    }
+}
+
+
+
+
+
+@media(max-width:768px){
+    .nav a{
+        width: 100%;
+        font-size: 15px;
+    }
+
+    .navi{
+        gap: 30px;
+        padding: 0 20px;
+    }
+
+     .kv-section{
+        align-items: center;
+    }
+
+    .kv-wrap{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 15px 0 30px;
+    }
+
+    .kv-tit h1{
+        margin-bottom: 3%;
+    }
+
+    .kv-text{
+        width: 100%;
+        align-items: center;
+    }
+
+    .kv-line{
+        margin: 20px 0;
+        width: 1px;
+        height: 30px;
+    }
+
+    .kv-img{
+        width: 80%;
+    }
+
 }

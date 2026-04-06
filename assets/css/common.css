@@ -77,3 +77,19 @@
 .font-body{
     font-size: 18px;
 }
+
+
+@media(max-width:768px){
+    .font-h1{
+        font-size: 24px;
+    }
+    .font-h2{
+        font-size: 18px;
+    }
+    .font-h3{
+        font-size: 15px;
+    }
+    .font-body{
+        font-size: 14px;
+    }
+}
