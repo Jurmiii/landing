@@ -5,6 +5,7 @@
 .header_wrap{
     background-color: #E5E5E3;
     padding: 40px 0;
+    width: 100%;
 }
 .nav{
     width: 1244px;
@@ -24,26 +25,30 @@
 /* kv section */
 .kv{
     background-color: #E5E5E3;
+    width: 100%;
 }
 
 .kv__section{
-    position: relative;
+    display: flex;
     max-width: 1244px;
-    height: 827px;
+    min-height: 827px;
     margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
 }
 
 .kv-wrap{
-    position: absolute;
     left: 0;
-    bottom: 128.5px;
     display: flex;
     align-items: flex-end;
-    gap: 103.5px;
+    justify-content: space-between;
+    gap: 6vw;
+    padding-bottom: 128px;
 }
 
 /* kv title 1 */
 .kv-text{
+    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -74,21 +79,50 @@
 
 /* kv image */
 .kv-img{
-    width: 596.5px;
-    height: 685.39px;
+    width: 45%;
+    max-width: 596px;
     flex-shrink: 0;
 }
 
 .kv-mod{
     display: block;
-    max-width: 100%;
+    width: 100%;
     height: auto;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .kv-section{
+        align-items: center;
+    }
+
+    .kv-wrap{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 30px;
+    }
+
+    .kv-text{
+        width: 100%;
+        align-items: center;
+    }
+
+    .kv-img{
+        width: 80%;
+        margin-top: 40%;
+    }
+
+    .kv-line{
+        margin: 30px 0;
+    }
 }
 
 /* about section */
 .about{
     position: relative;
     background-color: #fff;
+    width: 100%;
 }
 
 .ab__section{
@@ -167,11 +201,12 @@
 
 /* program section */
 .program{
-    min-height: 100vh;
+    padding: 130px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(235, 95, 133, 0.6);
+    width: 100%;
 }
 
 .pr__section{
@@ -193,7 +228,6 @@
 .pr-title{
     font-family: 'KoPub Batang', serif;
     text-align: center;
-    margin-top: 130px;
 }
 
 .pr-title h1{
@@ -218,12 +252,17 @@
 }
 
 /* program ticket */
+.ticket-list{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .ticket-premium{
     position: relative;
     width: 100%;
     max-width: 897px;
     margin: 0 auto;
-    gap: 16px;
 }
 
 .ticket-basic{
@@ -238,17 +277,17 @@
     position: absolute;
     inset: 0;
     display: flex;
-    align-items: center;
-    padding: 40px 30px 40px 100px;
+    align-items: flex-start;
+    padding: 40px clamp(20px, 5vw, 100px);
     box-sizing: border-box;
     z-index: 2;
 }
 
 .tic-medal{
     position: absolute;
-    top: -11%;
+    top: -12%;
     right: 5%;
-    width: 100px;
+    width: clamp(60px, 8vw, 100px);
     z-index: 4;
 }
 
@@ -277,21 +316,26 @@
 }
 
 .ticket-right{
-    width: 40%;
+    width: auto;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: flex-start;
-    gap: 12px;
+    margin-top: 30px;
+    gap: 20px;
+    
 }
 
 .ticket-left h2{
     font-family: 'Pretendard';
     font-weight: 700;
+    margin-bottom: 40px;
 }
 
 .ticket-left ul{
     font-family: 'Pretendard';
     font-weight: 400;
+    line-height: 1.5;
 }
 
 .left-ff{
@@ -323,7 +367,7 @@
     padding: 0 20px;
     background-color: #EB5F85;
     display: flex;
-    width: 200px;
+    width: clamp(200px, 40%, 200px);
     height: 68px;
     box-sizing: border-box;
     align-items: center;
@@ -334,4 +378,71 @@
     width: 12px;
     height: 22px;
     margin-left: 20px;
+}
+
+/* before & after section */
+.before-after{
+    width: 100%;
+    background-color: #fff;
+    padding: 130px 0 260px 0;
+}
+
+.ba__section{
+    max-width: 1244px;
+    margin: 0 auto;
+}
+
+.ba-wrap{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* before & after title */
+.ba-title h1{
+    font-family: 'KoPub Batang', serif;
+}
+
+.ba-title h2{
+    font-family: 'Pretendard';
+    font-weight: 300;
+    margin-bottom: 55px;
+}
+
+/* before & after images */
+.ba-wrap{
+ display: flex;
+ justify-content: center;
+ gap: 40px;
+ width: 100%;
+}
+
+.ba-images{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.ba-item img{
+    width: 100%;
+    max-width: 615px;
+    aspect-ratio: 615 / 580;
+    object-fit: cover;
+    display: block;
+}
+
+.ba-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+}
+
+.ba-text{
+    font-family: 'Pretendard';
+    font-weight: 300;
 }
