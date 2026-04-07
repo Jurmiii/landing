@@ -18,7 +18,6 @@
     gap: 40px;
 }
 .navi a{
-    font-size: 24px;
     font-family: 'KoPub Batang'
 } 
 
@@ -40,7 +39,7 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 6vw;
-    padding-bottom: 128px;
+    padding-bottom: 7.222rem;
 }
 
 /* kv title 1 */
@@ -79,6 +78,7 @@
     width: 45%;
     max-width: 596px;
     flex-shrink: 0;
+    margin-top: 2.19rem;
 }
 
 .kv-mod{
@@ -96,31 +96,35 @@
 
 .ab__section{
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    align-items: center;
     max-width: 1244px;
     height: 851px;
     margin: 0 auto;
+    padding: 120px 0;
+    z-index: 1;
 }
 
 /* about title */
 .ab-title{
+    position: absolute;
     font-family: 'KoPub Batang', serif;
-    font-size: 140px;
+    font-size: clamp(80px, 10vw, 250px);
     color: #000;
     opacity: 0.05;
-    position: absolute;
-    left: -430px;
-    top: 151.5px;
+    left: -5px;
+    top: 20px;
     z-index: 0;
+    pointer-events: none;
 }
 
 /* about image */
 .ab-img{
-    position: absolute;
-    top: 130px;
-    right: 0;
-    width: 817px;
-    height: 446px;
+    width: 100%;
+    max-width: 817px;
+    justify-self: end;
+    grid-column: 2;
     z-index: 1;
 }
 
@@ -133,16 +137,16 @@
 
 /* about text */
 .ab-text{
-    position: absolute;
-    top: 643px; 
-    right: 0;
+    grid-column: 2;
+    justify-self: end;
+    margin-top: 67px;
     z-index: 1;
 }
 
 .ab-text h2{
     font-family: 'KoPub Batang', serif;
     font-weight: 100;
-    margin-bottom: 5px;
+    margin-bottom: 14px;
 }
 
 .ab-text h3{
@@ -381,21 +385,15 @@
 
 /* before & after images */
 .ba-wrap{
- gap: 55px;
- width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 55px;
+    width: 100%;
 }
 
 .ba-title h1{
     margin-bottom: 20px;
-}
-
-.ba-images{
-    width: 100%;
-    gap: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
 }
 
 .ba-item img{
@@ -408,8 +406,8 @@
 
 .ba-items{
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .ba-item{
@@ -418,6 +416,8 @@
     align-items: center;
     text-align: center;
     gap: 30px;
+    flex: 1;
+    max-width: 615px;
 }
 
 .ba-text{
@@ -432,51 +432,86 @@
 
 
 /* kv Responsive */
-@media(max-width:1920px){
+@media(max-width:1280px){
     .kv-section{
         width: 100%;
     }
 }
 
-@media(max-width:768px){
-    .nav a{
-        width: 100%;
-        font-size: 15px;
-    }
+@media(max-width:1024px){
 
+}
+
+@media(max-width:768px){
     .navi{
         gap: 30px;
         padding: 0 20px;
     }
-
+    
+    .nav a{
+        width: 100%;
+        font-size: 15px;
+    }
+    
      .kv-section{
         align-items: center;
     }
-
+    
     .kv-wrap{
         flex-direction: column;
         align-items: center;
         text-align: center;
         padding: 0 15px 30px 15px;
     }
-
+    
     .kv-tit h1{
         margin-bottom: 3%;
     }
-
+    
     .kv-text{
         width: 100%;
         align-items: center;
     }
-
+    
     .kv-line{
         margin: 20px 0;
         width: 1px;
         height: 30px;
     }
-
+    
     .kv-img{
         width: 80%;
     }
+
+    .ab__section{
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .ab-img{
+        justify-content: center;
+    }
+
+    .ab-text{
+        justify-content: center;
+    }
+
+    .ab-title{
+        left: 0;
+        top: 10%;
+        text-align: center;
+    }
+
+    .ba-items{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ba-item{
+        max-width: 100%;
+    }
+}    
+
+@media(max-width:540px){
 
 }
