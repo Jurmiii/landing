@@ -83,17 +83,57 @@ body,p,h1,h2,h3{
 }
 
 
-@media(max-width:768px){
+
+@media(max-width:1024px){
     .font-h1{
+        font-size: 3.5rem;
+    }
+
+    .font-h2{
         font-size: 1.5rem;
     }
+
+    .font-h3{
+        font-size: 1.25rem;
+    }
+
+    .font-body{
+        font-size: 1rem;
+    }
+}
+
+@media(max-width:768px){
+    .font-h1{
+        font-size: 2.5rem;
+    }
+
     .font-h2{
+        font-size: 1.5rem;
+    }
+
+    .font-h3{
         font-size: 1.125rem;
     }
-    .font-h3{
-        font-size: 0.938rem;
-    }
+
     .font-body{
-        font-size: 0.875rem;
+        font-size: 1rem;
+    }
+}
+
+@media(max-width:540px){
+    .font-h1{
+        font-size: 2rem;
+    }
+
+    .font-h2{
+        font-size: 1.25rem;
+    }
+
+    .font-h3{
+        font-size: 1rem;
+    }
+
+    .font-body{
+        font-size: 1rem;
     }
 }

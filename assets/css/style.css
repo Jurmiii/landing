@@ -21,6 +21,10 @@
     font-family: 'KoPub Batang'
 } 
 
+.menu{
+    display: none;
+}
+
 /* kv section */
 .kv{
     background-color: #E5E5E3;
@@ -39,7 +43,7 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 6vw;
-    padding-bottom: 7.222rem;
+    padding-bottom: 130px;
 }
 
 /* kv title 1 */
@@ -78,7 +82,7 @@
     width: 45%;
     max-width: 596px;
     flex-shrink: 0;
-    margin-top: 2.19rem;
+    margin-top: 22px;
 }
 
 .kv-mod{
@@ -97,12 +101,12 @@
 .ab__section{
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1.3fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     max-width: 1244px;
     height: 851px;
     margin: 0 auto;
-    padding: 120px 0;
+    padding: 130px 0;
     z-index: 1;
 }
 
@@ -110,13 +114,16 @@
 .ab-title{
     position: absolute;
     font-family: 'KoPub Batang', serif;
-    font-size: clamp(80px, 10vw, 250px);
-    color: #000;
-    opacity: 0.05;
-    left: -5px;
-    top: 20px;
     z-index: 0;
     pointer-events: none;
+    top: 22%;
+    left: -34%;
+}
+
+.ab-title h1{
+    font-size: 250px;
+    color: #000;
+    opacity: 0.05;
 }
 
 /* about image */
@@ -124,7 +131,7 @@
     width: 100%;
     max-width: 817px;
     justify-self: end;
-    grid-column: 2;
+    grid-column: 3;
     z-index: 1;
 }
 
@@ -137,9 +144,9 @@
 
 /* about text */
 .ab-text{
-    grid-column: 2;
+    grid-column: 3;
     justify-self: end;
-    margin-top: 67px;
+    margin-top: 35px;
     z-index: 1;
 }
 
@@ -431,7 +438,7 @@
 
 
 
-/* kv Responsive */
+/* Responsive */
 @media(max-width:1280px){
     .kv-section{
         width: 100%;
@@ -439,15 +446,32 @@
 }
 
 @media(max-width:1024px){
+    .menu{
+        display: block;
+        cursor: pointer;
 
+    }
+
+    .navi{
+        display: none;
+    }
 }
 
 @media(max-width:768px){
+    .header_wrap{
+        padding: 20px 0;
+    }
+
     .navi{
         gap: 30px;
         padding: 0 20px;
     }
     
+    .nav{
+        padding: 0 20px;
+        margin: 0;
+    }
+
     .nav a{
         width: 100%;
         font-size: 15px;
@@ -462,6 +486,7 @@
         align-items: center;
         text-align: center;
         padding: 0 15px 30px 15px;
+        gap: 0vw;
     }
     
     .kv-tit h1{
@@ -513,5 +538,5 @@
 }    
 
 @media(max-width:540px){
-
+    
 }
