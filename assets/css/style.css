@@ -438,22 +438,43 @@
 
 
 
-/* Responsive */
+/* Responsive - pc , ta , mo , mo*/
 @media(max-width:1280px){
+    .header_wrap{
+        padding: 20px 0;
+    }
+
+    .navi{
+        gap: 30px;
+        padding: 0 20px;
+    }
+
     .kv-section{
         width: 100%;
     }
 }
 
 @media(max-width:1024px){
+    .header_wrap{
+        padding: 20px 15px;
+    }
+
     .menu{
         display: block;
         cursor: pointer;
-
     }
 
     .navi{
         display: none;
+    }
+
+    .kv-section{
+        align-items: center;
+    }
+    
+    .kv-wrap{
+        padding: 0 15px 130px 15px;
+        gap: 0vw;
     }
 }
 
@@ -477,7 +498,7 @@
         font-size: 15px;
     }
     
-     .kv-section{
+    .kv-section{
         align-items: center;
     }
     
@@ -538,5 +559,12 @@
 }    
 
 @media(max-width:540px){
-    
+    .menu{
+        display: block;
+        cursor: pointer;
+    }
+
+    .navi{
+        display: none;
+    }
 }
