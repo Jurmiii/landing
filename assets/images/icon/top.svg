@@ -1,10 +1,11 @@
 <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_77_66" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="3" y="3" width="50" height="50">
+<circle cx="28" cy="28.0205" r="24" fill="white"/>
+<mask id="mask0_77_56" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="3" y="3" width="50" height="50">
 <path d="M27.9994 51.3337C40.8864 51.3337 51.3327 40.8873 51.3327 28.0003C51.3327 15.1133 40.8864 4.66699 27.9994 4.66699C15.1124 4.66699 4.66602 15.1133 4.66602 28.0003C4.66602 40.8873 15.1124 51.3337 27.9994 51.3337Z" stroke="white" stroke-width="2"/>
 <path d="M27.9994 51.3337C40.8864 51.3337 51.3327 40.8873 51.3327 28.0003C51.3327 15.1133 40.8864 4.66699 27.9994 4.66699C15.1124 4.66699 4.66602 15.1133 4.66602 28.0003C4.66602 40.8873 15.1124 51.3337 27.9994 51.3337Z" fill="white" stroke="white" stroke-width="2" stroke-linejoin="round"/>
 <path d="M38.5 31.5L28 21L17.5 31.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </mask>
-<g mask="url(#mask0_77_66)">
+<g mask="url(#mask0_77_56)">
 <path d="M0 0H56V56H0V0Z" fill="#BCBCBC"/>
 </g>
 </svg>

@@ -14,6 +14,7 @@
     margin: auto;
     justify-content: space-between;
     align-items: center;
+    padding: 0 clamp(20px, 4vw, 10px);
 }
 .navi{
     display: flex;
@@ -25,22 +26,24 @@
 
 .menu{
     display: none;
+    cursor: pointer;
 }
 
 /* kv section */
 .kv{
     background-color: #E5E5E3;
     width: 100%;
+    min-height: 937px;
 }
 
 .kv__section{
     max-width: 1244px;
     height: auto;
     margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 10px);
 }
 
 .kv-wrap{
-    left: 0;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -57,14 +60,15 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
-
-.kv-tit{
     font-family: 'KoPub Batang', serif;
 }
 
 .kv-tit h1{
-    margin-bottom: 26px;
+    line-height: 1.6;
+}
+
+.kv-su-tit h3{
+    line-height: 150%;
 }
 
 /* kb line */
@@ -73,12 +77,6 @@
     height: 98px;
     background-color: rgba(0,0,0,0.4);
     margin: 50px 0;
-}
-
-
-/* kv title 2 */
-.kv-su-tit{
-    font-family: 'KoPub Batang', serif;
 }
 
 /* kv image */
@@ -93,6 +91,24 @@
     display: block;
     width: 100%;
     height: auto;
+}
+
+/* side icon section */
+.icon{
+    display: flex;
+    flex-direction: column;
+    gap: 12.33px ;
+    position: fixed;
+    right: 80px;
+    bottom: 80px;
+    z-index: 10;
+}
+
+.icon button{
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
 }
 
 /* about section */
@@ -167,30 +183,12 @@
 .ab-text h2{
     font-family: 'KoPub Batang', serif;
     font-weight: 100;
-    margin-bottom: 14px;
+    line-height: 1.4;
 }
 
 .ab-text h3{
     font-family: 'Pretendard';
     font-weight: 100;
-}
-
-/* about icon */
-.icon{
-    display: flex;
-    flex-direction: column;
-    gap: 12.33px ;
-    position: fixed;
-    right: 80px;
-    bottom: 80px;
-    z-index: 10;
-}
-
-.icon button{
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
 }
 
 /* program section */
@@ -225,11 +223,11 @@
 }
 
 .pr-title h1{
-    margin-bottom: 20px;
+    line-height: 1;
 }
 
 .pr-title h2{
-    margin-bottom: 46.17px;
+    line-height: 2;
 }
 
 .ticket-area{
@@ -240,7 +238,7 @@
 .pr-tit{
     width: 100%;
     text-align: left;
-    margin-bottom: 8px;
+    line-height: 4;
     font-family: 'Pretendard';
     font-weight: 300;
 }
@@ -315,15 +313,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 30px;
+    line-height: 1;
     gap: 20px;
-    
+    height: 100%;
 }
 
 .ticket-left h2{
     font-family: 'Pretendard';
     font-weight: 700;
-    margin-bottom: 40px;
+    line-height: 2.5;
 }
 
 .ticket-left ul{
@@ -355,6 +353,8 @@
 .af-text{
     font-size: 40px;
 }
+
+
 
 .btn{
     border-radius: 100px;
@@ -390,33 +390,25 @@
 .ba-wrap{
     width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 55px;
 }
 
 /* before & after title */
 .ba-title h1{
     font-family: 'KoPub Batang', serif;
+    line-height: 1;
 }
 
 .ba-title h2{
     font-family: 'Pretendard';
     font-weight: 300;
+    line-height: 2.5;
 }
 
 /* before & after images */
-.ba-wrap{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 55px;
-    width: 100%;
-}
-
-.ba-title h1{
-    margin-bottom: 20px;
-}
-
 .ba-item img{
     width: 100%;
     max-width: 615px;
@@ -429,6 +421,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 20px;
 }
 
 .ba-item{
@@ -444,11 +437,76 @@
 .ba-text{
     font-family: 'Pretendard';
     font-weight: 300;
+    line-height: 1.2;
 }
 
+/* point section */
+.point{
+    position: relative;
+    width: 100%;
+}
 
+.po__section{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(235, 95, 133, 0.6);
+    z-index: 0;
+    overflow: hidden;
+}
 
+.po__section::before{
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(235, 95, 133, 0.6);
+    border-radius: 50%;
+}
 
+.po__section::after{
+    content: "";
+    position: absolute;
+    top: -100%;
+    right: -100%;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(235, 95, 133, 0.6);
+    border-radius: 50%;
+}
+
+.po-wrap{
+    position: relative;
+    max-width: 1244px;
+    margin: 0 auto;
+    padding: clamp(80px 10vw 152px) 20px;
+    z-index: 1;
+    text-align: center;
+}
+
+/* point text */
+.point-text{
+    text-align: center;
+    line-height: 1.5;
+}
+
+.text1{
+    font-size: 3.125rem;
+    font-family: 'Pretendard';
+    font-weight: 100;
+}
+
+.text2{
+    font-size: 3.75rem;
+    font-family: 'Pretendard';
+    font-weight: 500;
+}
+
+/* 5-step care section */
 
 
 
@@ -519,8 +577,8 @@
     }
     
     .kv-wrap{
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: column-reverse;
+        align-items: center;
         text-align: center;
         padding-bottom: 30px;
         padding-left: 8px;
@@ -607,7 +665,4 @@
         font-size: 60px;
     }
 
-    .ab-img{
-        
-    }
 }
