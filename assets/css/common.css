@@ -4,7 +4,7 @@
  font-family: 'KoPub Batang', serif;
 }
 
-
+/* light */
 @font-face {
     font-family: 'Pretendard';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2');
@@ -12,6 +12,7 @@
     font-display: swap;
 }
 
+/* regular */
 @font-face {
     font-family: 'Pretendard';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
@@ -19,6 +20,7 @@
     font-display: swap;
 }
 
+/* medium */
 @font-face {
     font-family: 'Pretendard';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2');
@@ -26,6 +28,7 @@
     font-display: swap;
 }
 
+/* bold */
 @font-face {
     font-family: 'Pretendard';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2');
@@ -66,23 +69,25 @@ body,p{
     color: #fff;
 }
 
+/* 82px */
 .font-h1{
     font-size: 5.125rem;
 }
 
+/* 32px */
 .font-h2{
     font-size: 2rem;
 }
 
+/* 24px */
 .font-h3{
     font-size: 1.5rem;
 }
 
+/* 18px */
 .font-body{
     font-size: 1.125rem;
 }
-
-
 
 @media(max-width:1024px){
     .font-h1{

@@ -517,7 +517,7 @@
 .sc-title h2{
     font-family: 'Pretendard';
     font-weight: 300;
-    line-height: 2.5;
+    line-height: 2.9;
 }
 
 /* 5-step care list */
@@ -619,6 +619,150 @@
 .as-images h2{
     margin-top: 50px;
 }
+
+/* location arte section */
+.location-arte{
+    width: 100%;
+    background-color: #E5E5E3;
+}
+
+.la__section{
+    margin: 0 auto;
+    max-width: 1440px;
+}
+
+.la-wrap{
+    width: 100%;
+    padding: 130px 100px;
+}
+
+/* location arte title */
+.la-title{
+    text-align: center;
+    font-family: 'KoPub Batang', serif;
+}
+
+/* location arte content */
+.la-content{
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.la-map{
+    width: 100%;
+    margin: 0 auto;
+}
+
+.la-text{
+    width: 25%;
+    flex-direction: column;
+    line-height: 140%;
+    font-family: 'Pretendard';
+}
+
+.la-info{
+    display: flex;
+    gap: 6px;
+}
+
+.la-info h3{
+    font-weight: 500;
+}
+
+.la-text p1{
+    line-height: 0;
+    font-weight: 400;
+}
+
+.la-text1{
+    line-height: 50px;
+    margin-bottom: 61px;
+}
+
+.la-text2{
+    margin-bottom: 40px;
+}
+
+.la-text2,
+.la-text3{
+    font-weight: 400;
+}
+
+.font-weight{
+    font-weight: 700;
+}
+
+/* visit consultation section */
+.visit-consulatation{
+    width: 100%;
+}
+
+.vc__section{
+    position: relative;
+    margin: 0 auto;
+    max-width: 1440px;
+}
+
+.vc-wrap{
+    width: 100%;
+    padding: 130px 0;
+}
+
+.vc-bg{
+    position: absolute;
+    width: 100%;
+    height: 90%;
+    background-color: #E5E5E3;
+    border-radius: 50px;
+    z-index: -1;
+}
+
+/* visit consultation title */
+.vc-title{
+    text-align: center;
+    font-family: 'KoPub Batang', serif;
+}
+
+.vc-title h2{
+    font-family: 'Pretendard';
+    font-weight: 300;
+    line-height: 3.5;
+}
+
+/* footer section */
+.footer{
+    width: 100%;
+    background-color: #525252;
+    padding: 80px 0;
+}
+
+.foot__section{
+    margin: 0 auto;
+    max-width: 1440px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* footer text */
+.foot-logo{
+    flex-direction: column;
+    justify-items: center;
+    line-height: 2;
+    font-family: 'Pretendard';
+    font-weight: 400;
+}
+
+.foot-info1,
+.foot-info2{
+    line-height: 1.5;
+    font-family: 'Pretendard';
+    font-weight: 400;
+}
+
 
 /* Responsive - pc , ta , mo , mo*/
 @media(max-width:1280px){
