@@ -69,6 +69,14 @@ body,p{
     color: #fff;
 }
 
+.db-color{
+    color: #999;
+}
+
+.db-line{
+    color: #BFBFBF;
+}
+
 /* 82px */
 .font-h1{
     font-size: 5.125rem;
