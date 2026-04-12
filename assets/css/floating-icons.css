@@ -1,0 +1,53 @@
+/* Floating side icons: KV 숨김, About 이후 표시 (.icon + .show) */
+.icon {
+  position: fixed;
+  z-index: 10000;
+  right: clamp(16px, 5vw, 80px);
+  bottom: clamp(16px, 5vw, 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(8px, 2vw, 16px);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.icon.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.icon .talk,
+.icon .top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(40px, 8vw, 60px);
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  line-height: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.icon .talk img,
+.icon .top img {
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: middle;
+}
+
+.icon .top:focus-visible,
+.icon .talk:focus-visible {
+  outline: 2px solid #eb5f85;
+  outline-offset: 3px;
+}

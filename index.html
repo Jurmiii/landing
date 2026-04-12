@@ -6,6 +6,7 @@
     <title>Arte Aesthetic landing</title>
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/floating-icons.css">
 </head>
 <body>
 
@@ -60,17 +61,17 @@
 <!-- side icon -->
     <section class="side-icon">
         <div class="icon">
-            <button class="talk">
+            <a class="talk" href="https://example.com/kakao" target="_blank" rel="noopener noreferrer">
                 <img src="assets/images/icon/talk.svg" alt="">
-            </button>
-            <button class="top">
+            </a>
+            <button type="button" class="top">
                 <img src="assets/images/icon/top.svg" alt="">
             </button>
         </div>
     </section>
 
 <!--------------- about section --------------->
-    <section class="about">
+    <section class="about" id="about">
         <div class="ab__section">
 
             <div class="ab-right">
@@ -434,5 +435,7 @@
         </div>
     </section>
 
+    <script src="assets/js/header-menu.js"></script>
+    <script src="assets/js/floating-icons.js"></script>
 </body>
 </html>

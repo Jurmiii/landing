@@ -22,11 +22,40 @@
 }
 .navi a{
     font-family: 'KoPub Batang', serif;
-} 
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navi a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background-color: #EDA9BC;
+    transition: width 0.3s ease;
+}
+
+.navi a:hover {
+    color: #EDA9BC;
+}
+
+.navi a:hover::after {
+    width: 100%;
+}
 
 .menu{
     display: none;
     cursor: pointer;
+    position: relative;
+    z-index: 10002;
+    line-height: 0;
+}
+
+body.nav-open {
+    overflow: hidden;
 }
 
 /* kv section */
@@ -93,23 +122,7 @@
     height: auto;
 }
 
-/* side icon section */
-.icon{
-    display: flex;
-    flex-direction: column;
-    gap: 12.33px ;
-    position: fixed;
-    right: 80px;
-    bottom: 80px;
-    z-index: 10;
-}
-
-.icon button{
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-}
+/* side icon: assets/css/floating-icons.css */
 
 /* about section */
 .about{
@@ -900,7 +913,31 @@
     }
 
     .navi{
-        display: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: clamp(70%, 78vw, 80%);
+        max-width: 320px;
+        height: 100vh;
+        height: 100dvh;
+        margin: 0;
+        padding: clamp(72px, 14vh, 110px) clamp(20px, 5vw, 28px) clamp(24px, 5vw, 40px);
+        gap: clamp(16px, 4vw, 28px);
+        background-color: #E5E5E3;
+        z-index: 10001;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+        list-style: none;
+    }
+
+    .nav.active .navi {
+        transform: translateX(0);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1);
     }
 
     .kv-section{
@@ -918,6 +955,38 @@
         grid-template-columns: 1fr 1.2fr;
         padding: 80px 20px;
     }
+
+    /* program — 태블릿: 간격·패딩만 축소, 가로 티켓 유지 */
+    .program{
+        padding: clamp(60px, 8vw, 130px) 0;
+    }
+
+    .pr__section{
+        padding: 0 clamp(12px, 3vw, 24px);
+        box-sizing: border-box;
+    }
+
+    .ticket-area{
+        max-width: min(897px, 94vw);
+    }
+
+    .ticket-list{
+        gap: clamp(14px, 2.5vw, 16px);
+    }
+
+    .ticket-premium,
+    .ticket-basic{
+        max-width: min(897px, 96vw);
+    }
+
+    .ticket-content{
+        padding: clamp(20px, 4vw, 40px) clamp(16px, 3vw, 80px);
+        gap: clamp(12px, 2vw, 24px);
+    }
+
+    .tic-line{
+        margin: 0 clamp(12px, 2vw, 28px) 0 clamp(10px, 2vw, 16px);
+    }
 }
 
 @media(max-width:768px){
@@ -926,9 +995,8 @@
     }
 
     .navi{
-        display: none;
-        gap: 30px;
-        padding: 0 20px;
+        gap: clamp(14px, 3.5vw, 24px);
+        padding: clamp(72px, 14vh, 110px) clamp(20px, 5vw, 28px) clamp(24px, 5vw, 40px);
     }
     
     .nav{
@@ -936,13 +1004,11 @@
         margin: 0;
     }
 
-    .nav a{
-        width: 100%;
+    .nav .navi a{
+        width: auto;
+        display: inline-block;
+        max-width: 100%;
         font-size: 15px;
-    }
-    
-    .manu{
-        display: block;
     }
 
     .kv-section{
@@ -950,13 +1016,13 @@
     }
     
     .kv-wrap{
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: center;
         text-align: center;
         padding-bottom: 30px;
         padding-left: 8px;
         padding-right: 8px;
-        gap: 10px;
+        gap: clamp(10px, 3vw, 20px);
     }
     
     .kv-tit h1{
@@ -1012,30 +1078,180 @@
     .ba-item{
         max-width: 100%;
     }
-}    
 
-@media(max-width:540px){
-    .menu{
-        display: block;
-        cursor: pointer;
+    /* program — 모바일: 세로형 카드 (flex), ticket-c 배경 */
+    .program{
+        padding: clamp(40px, 8vw, 100px) clamp(12px, 3vw, 20px);
     }
 
-    .navi{
+    .pr__section{
+        padding: 0 clamp(8px, 3vw, 16px);
+        box-sizing: border-box;
+    }
+
+    .ticket-area{
+        max-width: 100%;
+    }
+
+    .ticket-list{
+        gap: clamp(16px, 3vw, 24px);
+        align-items: center;
+    }
+
+    .ticket-premium,
+    .ticket-basic{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(16px, 3vw, 24px);
+        width: 100%;
+        max-width: 340px;
+        margin-left: auto;
+        margin-right: auto;
+        background-image: url(../images/ticket-c.png);
+        background-repeat: no-repeat;
+        background-position: top center;
+        background-size: 100% auto;
+        padding: clamp(16px, 4vw, 24px);
+        box-sizing: border-box;
+    }
+
+    .ticket-premium .ticket-bg,
+    .ticket-basic .ticket-bg{
         display: none;
     }
 
+    .tic-medal{
+        position: relative;
+        top: auto;
+        right: auto;
+        align-self: flex-end;
+        width: clamp(52px, 14vw, 80px);
+        margin: 0 0 4px;
+    }
+
+    .ticket-content{
+        position: relative;
+        inset: auto;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        width: 100%;
+        max-width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: clamp(16px, 3vw, 24px);
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .tic-line{
+        display: none;
+    }
+
+    .ticket-left,
+    .ticket-right{
+        width: 100%;
+        max-width: 300px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .ticket-left{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ticket-left ul{
+        text-align: center;
+        list-style-position: inside;
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .ticket-right .btn{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}    
+
+@media(max-width:540px){
+    .about{
+        overflow: visible;
+        padding-bottom: 30px;
+    }
+
     .ab__section{
-        padding: 30px 16px;
-        gap: 30px;
-        min-height: 500px;
+        display: block;
+        width: 402px;
+        max-width: 100%;
+        height: 212px;
+        min-height: 212px;
+        margin: 0 auto;
+        padding: 0;
+        align-items: unset;
+        grid-template-columns: unset;
+        gap: 0;
+    }
+
+    .ab-right{
+        display: contents;
     }
 
     .ab-title{
+        position: absolute;
         left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 0;
+        pointer-events: none;
     }
 
     .ab-title h1{
-        font-size: 60px;
+        font-size: 56px;
+    }
+
+    .ab-img{
+        position: absolute;
+        top: 30px;
+        right: 0;
+        left: auto;
+        width: 200px;
+        height: 109px;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        display: block;
+        grid-column: unset;
+        justify-self: unset;
+        order: unset;
+        z-index: 1;
+    }
+
+    .ab-img img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .ab-text{
+        position: absolute;
+        top: 149px;
+        right: 0;
+        left: auto;
+        width: auto;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        text-align: right;
+        grid-column: unset;
+        justify-self: unset;
+        justify-content: unset;
+        order: unset;
+        z-index: 1;
     }
 
 }
