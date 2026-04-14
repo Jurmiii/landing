@@ -62,7 +62,8 @@ body.nav-open {
 .kv{
     background-color: #E5E5E3;
     width: 100%;
-    min-height: 937px;
+    min-height: clamp(520px, 92vh, 937px);
+    min-height: clamp(520px, 92svh, 937px);
 }
 
 .kv__section{
@@ -103,9 +104,9 @@ body.nav-open {
 /* kb line */
 .kv-line{
     width: 1px;
-    height: 98px;
+    height: clamp(48px, 12vw, 98px);
     background-color: rgba(0,0,0,0.4);
-    margin: 50px 0;
+    margin: clamp(24px, 5vw, 50px) 0;
 }
 
 /* kv image */
@@ -129,29 +130,38 @@ body.nav-open {
     position: relative;
     background-color: #fff;
     width: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 .ab__section{
     position: relative;
     display: grid;
-    grid-template-columns: 0.7fr 1.3fr;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    grid-template-rows: minmax(0, auto);
     align-items: center;
     max-width: 1244px;
-    min-height: 851px;
+    min-height: clamp(480px, 85vh, 851px);
+    min-height: clamp(480px, 85svh, 851px);
     margin: 0 auto;
     padding: 130px 0;
     z-index: 1;
+    overflow: visible;
 }
 
-/* about title */
+/* about title — 그리드에 참여해 섹션 너비와 함께 축소; 스패닝 셀 기준 %로 기존 -33% 오프셋 재현 */
 .ab-title{
-    position: absolute;
+    position: relative;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: start;
+    align-self: center;
+    width: max-content;
+    box-sizing: border-box;
+    margin-left: -33%;
     font-family: 'KoPub Batang', serif;
     z-index: 0;
     pointer-events: none;
-    top: 20%;
-    left: -410px;
 }
 
 .ab-title h1{
@@ -161,10 +171,14 @@ body.nav-open {
 }
 
 .ab-right{
+    position: relative;
     grid-column: 2;
+    grid-row: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    z-index: 1;
+    min-width: 0;
 }
 
 /* about image */
@@ -173,7 +187,6 @@ body.nav-open {
     max-width: 817px;
     display: flex;
     justify-content: end;
-    grid-column: 2;
     z-index: 1;
 }
 
@@ -186,8 +199,6 @@ body.nav-open {
 
 /* about text */
 .ab-text{
-    grid-column: 2;
-    justify-self: end;
     margin-top: 35px;
     text-align: right;
     z-index: 1;
@@ -349,22 +360,22 @@ body.nav-open {
 }
 
 .bf-num{
-    font-size: 50px;
+    font-size: clamp(1.75rem, 3.2vw, 3.125rem);
     color: #8C949A;
     text-decoration: line-through;
 }
 
 .bf-text{
-    font-size: 20px;
+    font-size: clamp(0.875rem, 1.6vw, 1.25rem);
     color: #8C949A;
 }
 
 .af-num{
-    font-size: 70px;
+    font-size: clamp(2.5rem, 5vw, 4.375rem);
 }
 
 .af-text{
-    font-size: 40px;
+    font-size: clamp(1.25rem, 2.8vw, 2.5rem);
 }
 
 
@@ -374,8 +385,9 @@ body.nav-open {
     padding: 0 20px;
     background-color: #EB5F85;
     display: flex;
-    width: clamp(200px, 40%, 200px);
-    height: 68px;
+    width: 200px;
+    max-width: 100%;
+    height: clamp(52px, 10vw, 68px);
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
@@ -457,6 +469,7 @@ body.nav-open {
 .point{
     position: relative;
     width: 100%;
+    overflow: hidden;
 }
 
 .po__section{
@@ -470,7 +483,10 @@ body.nav-open {
 
 .po__section img{
     width: 100%;
+    height: 100%;
+    min-height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .po-wrap{
@@ -482,7 +498,8 @@ body.nav-open {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 152px 0
+    padding: clamp(72px, 18vw, 152px) clamp(16px, 4vw, 24px);
+    box-sizing: border-box;
 }
 
 /* point text */
@@ -492,13 +509,13 @@ body.nav-open {
 }
 
 .text1{
-    font-size: 3.125rem;
+    font-size: clamp(1.5rem, 4.2vw, 3.125rem);
     font-family: 'Pretendard';
     font-weight: 100;
 }
 
 .text2{
-    font-size: 3.75rem;
+    font-size: clamp(1.65rem, 5vw, 3.75rem);
     font-family: 'Pretendard';
     font-weight: 500;
 }
@@ -549,23 +566,28 @@ body.nav-open {
 
 .sc-list li{
     position: relative;
-    width: 217px;
-    height: 242px;
-    padding-top: 60px;
+    width: min(217px, 100%);
+    max-width: 217px;
+    min-height: 242px;
+    height: auto;
+    padding-top: clamp(48px, 12vw, 60px);
+    padding-bottom: 12px;
     background: #FFF4F7;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     text-align: center;
+    flex: 0 1 217px;
+    box-sizing: border-box;
 }
 
 .sc-list li h2{
     position: absolute;
-    top: -45px;
+    top: clamp(-36px, -6vw, -45px);
     left: 50%;
     transform: translate(-50%);
-    width: 90px;
-    height: 90px;
+    width: clamp(72px, 18vw, 90px);
+    height: clamp(72px, 18vw, 90px);
     background-color: rgba(235, 95, 133, 0.6);
     border-radius: 50%;
     color: #fff;
@@ -579,7 +601,8 @@ body.nav-open {
 }
 
 .sc-list li img{
-    width: 50px;
+    width: clamp(40px, 10vw, 50px);
+    height: auto;
     margin: 0 auto;
     margin-top: 20px;
 }
@@ -629,6 +652,12 @@ body.nav-open {
     align-items: center;
 }
 
+.as-images img{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
 .as-images h2{
     margin-top: 50px;
 }
@@ -662,18 +691,34 @@ body.nav-open {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: clamp(16px, 3vw, 40px);
+    flex-wrap: nowrap;
+    box-sizing: border-box;
 }
 
 .la-map{
-    width: 100%;
+    flex: 1 1 75%;
+    width: auto;
+    min-width: 0;
+    max-width: 75%;
     margin: 0 auto;
 }
 
+.la-map img{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 .la-text{
+    flex: 0 0 25%;
     width: 25%;
+    max-width: 25%;
+    min-width: 0;
     flex-direction: column;
     line-height: 140%;
     font-family: 'Pretendard';
+    box-sizing: border-box;
 }
 
 .la-info{
@@ -765,7 +810,10 @@ body.nav-open {
 
 .db3,
 .db4{
-    width: 510px;
+    width: 100%;
+    max-width: 510px;
+    min-width: 0;
+    flex: 1 1 0;
 }
 
 .vc-db3{
@@ -805,11 +853,13 @@ body.nav-open {
 }
 
 .vc-db1 input{
-    width: 510px;
+    width: 100%;
+    max-width: 510px;
     height: 60px;
     padding: 10px;
     border: 1px solid #bfbfbf;
     background-color: #fff;
+    box-sizing: border-box;
 }
 
 .vc-db1,
@@ -832,6 +882,14 @@ body.nav-open {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+}
+
+.db1,
+.db2{
+    width: 100%;
+    max-width: 510px;
+    min-width: 0;
+    flex: 1 1 0;
 }
 
 .checkbox-wrap input:checked + .checkmark::after{
@@ -882,11 +940,17 @@ body.nav-open {
 
 /* footer text */
 .foot-logo{
+    display: flex;
     flex-direction: column;
+    align-items: flex-start;
     justify-items: center;
     line-height: 2;
     font-family: 'Pretendard';
     font-weight: 400;
+}
+
+.foot-logo img{
+    height: auto;
 }
 
 .foot-info1,
@@ -899,6 +963,25 @@ body.nav-open {
 
 /* Responsive - pc , ta , mo , mo*/
 @media(max-width:1280px){
+    .ba__section{
+        padding-left: clamp(16px, 3vw, 32px);
+        padding-right: clamp(16px, 3vw, 32px);
+        box-sizing: border-box;
+    }
+
+    .la-wrap{
+        padding-left: clamp(24px, 5vw, 100px);
+        padding-right: clamp(24px, 5vw, 100px);
+        box-sizing: border-box;
+    }
+
+    .sc__section,
+    .as__section,
+    .foot__section{
+        padding-left: clamp(16px, 3vw, 40px);
+        padding-right: clamp(16px, 3vw, 40px);
+        box-sizing: border-box;
+    }
 
 }
 
@@ -940,20 +1023,11 @@ body.nav-open {
         box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1);
     }
 
-    .kv-section{
-        align-items: center;
-    }
-    
     .kv-wrap{
         /* padding: 0 15px 130px 15px; */
         gap: clamp(14px, 2vw, 28px);
         padding-left: 12px;
         padding-right: 12px;
-    }
-
-    .ab__section{
-        grid-template-columns: 1fr 1.2fr;
-        padding: 80px 20px;
     }
 
     /* program — 태블릿: 간격·패딩만 축소, 가로 티켓 유지 */
@@ -987,6 +1061,40 @@ body.nav-open {
     .tic-line{
         margin: 0 clamp(12px, 2vw, 28px) 0 clamp(10px, 2vw, 16px);
     }
+
+    .la-content{
+        flex-wrap: wrap;
+    }
+
+    .la-map{
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .la-text{
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: 36rem;
+        margin: 0 auto;
+    }
+
+    .sc-list ul{
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: clamp(36px, 8vw, 48px);
+    }
+
+    .foot__section{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: clamp(24px, 4vw, 40px);
+    }
+
+    .vc-bg{
+        padding-left: clamp(28px, 5vw, 105px);
+        padding-right: clamp(28px, 5vw, 105px);
+        box-sizing: border-box;
+    }
 }
 
 @media(max-width:768px){
@@ -1011,17 +1119,10 @@ body.nav-open {
         font-size: 15px;
     }
 
-    .kv-section{
-        align-items: center;
-    }
-    
     .kv-wrap{
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding-bottom: 30px;
-        padding-left: 8px;
-        padding-right: 8px;
         gap: clamp(10px, 3vw, 20px);
     }
     
@@ -1042,32 +1143,6 @@ body.nav-open {
     
     .kv-img{
         width: 100%;
-    }
-
-    .ab__section{
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .ab__section{
-        grid-template-columns: 1fr;
-        text-align: left;
-    }
-
-    .ab-img{
-        grid-column: 1;
-        justify-self: center;
-        order: 1;
-    }
-
-    .ab-text{
-        justify-content: center;
-        order: 2;
-    }
-
-    .ab-title{
-        left: -50px;
-        top: 10%;
     }
 
     .ba-items{
@@ -1176,82 +1251,50 @@ body.nav-open {
         margin-left: auto;
         margin-right: auto;
     }
+
+    .vc-db1,
+    .vc-db2{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .db1,
+    .db2,
+    .db3,
+    .db4{
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .vc-db1 input{
+        max-width: 100%;
+    }
+
+    .foot__section{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .foot-logo{
+        align-items: center;
+    }
+
+    .la-wrap{
+        padding-top: clamp(48px, 10vw, 130px);
+        padding-bottom: clamp(48px, 10vw, 130px);
+    }
 }    
 
-@media(max-width:540px){
+@media(max-width:480px){
+    /* About: PC와 동일한 2열 그리드·겹침 구조 유지, 좌우 여백만 유동 */
     .about{
-        overflow: visible;
-        padding-bottom: 30px;
+        overflow-x: hidden;
+        overflow-y: visible;
     }
 
     .ab__section{
-        display: block;
-        width: 402px;
-        max-width: 100%;
-        height: 212px;
-        min-height: 212px;
-        margin: 0 auto;
-        padding: 0;
-        align-items: unset;
-        grid-template-columns: unset;
-        gap: 0;
+        padding: clamp(48px, 14vw, 130px) clamp(8px, 3vw, 16px);
+        box-sizing: border-box;
     }
-
-    .ab-right{
-        display: contents;
-    }
-
-    .ab-title{
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 0;
-        pointer-events: none;
-    }
-
-    .ab-title h1{
-        font-size: 56px;
-    }
-
-    .ab-img{
-        position: absolute;
-        top: 30px;
-        right: 0;
-        left: auto;
-        width: 200px;
-        height: 109px;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-        display: block;
-        grid-column: unset;
-        justify-self: unset;
-        order: unset;
-        z-index: 1;
-    }
-
-    .ab-img img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .ab-text{
-        position: absolute;
-        top: 149px;
-        right: 0;
-        left: auto;
-        width: auto;
-        max-width: 100%;
-        margin: 0;
-        padding: 0;
-        text-align: right;
-        grid-column: unset;
-        justify-self: unset;
-        justify-content: unset;
-        order: unset;
-        z-index: 1;
-    }
-
 }

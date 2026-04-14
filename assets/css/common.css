@@ -133,7 +133,7 @@ body,p{
     }
 }
 
-@media(max-width:540px){
+@media(max-width:480px){
     .font-h1{
         font-size: 2rem;
     }
