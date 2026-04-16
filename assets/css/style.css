@@ -1,5 +1,251 @@
 @import url('common.css');
 
+/* =========================================================
+   Responsive foundation (override-only, keep existing rules)
+   - Breakpoints: PC(>=1280) / Notebook(1024~1279) / Tablet(768~1023) / Mobile(<=767)
+   - Common container: max-width 1244px; margin auto; padding clamp(16px,4vw,40px)
+========================================================= */
+:root{
+    --container-max: 1244px;
+    --container-pad: clamp(16px, 4vw, 40px);
+    --section-pad-y: clamp(60px, 10vw, 130px);
+    --radius-lg: clamp(24px, 4vw, 50px);
+}
+
+/* Common container rule across sections (no HTML change) */
+.nav,
+.kv__section,
+.ab__section,
+.pr__section,
+.ba__section,
+.po-wrap,
+.sc__section,
+.as__section,
+.la__section,
+.vc__section,
+.foot__section{
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-pad);
+    padding-right: var(--container-pad);
+    box-sizing: border-box;
+}
+
+/* Normalize section vertical paddings to fluid values */
+.header_wrap{
+    padding-top: clamp(20px, 4vw, 40px);
+    padding-bottom: clamp(20px, 4vw, 40px);
+}
+.program,
+.before-after,
+.step-care,
+.arte-space{
+    padding-top: var(--section-pad-y);
+    padding-bottom: var(--section-pad-y);
+}
+
+/* Avoid double vertical padding where inner wraps already own spacing */
+.step-care,
+.arte-space{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Remove "double padding" from inner wraps that already had hardcoded px */
+.sc-wrap,
+.as-wrap,
+.la-wrap{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: var(--section-pad-y);
+    padding-bottom: var(--section-pad-y);
+    box-sizing: border-box;
+}
+
+.vc-wrap{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: clamp(48px, 8vw, 80px);
+    padding-bottom: clamp(48px, 8vw, 80px);
+}
+
+.vc-bg{
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 4vw, 50px) var(--container-pad);
+    box-sizing: border-box;
+}
+
+/* Existing rules sometimes set "padding: 0 clamp(20px,4vw,10px)" (max < min). Override safely. */
+.nav,
+.kv__section{
+    padding-left: var(--container-pad);
+    padding-right: var(--container-pad);
+}
+
+/* -------------------------------------
+   KV: mobile text above image via order
+------------------------------------- */
+@media (max-width: 767px){
+    .kv-wrap{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .kv-text{ order: 1; align-items: center; }
+    .kv-img{ order: 2; width: 100%; max-width: min(596px, 92vw); margin-top: clamp(8px, 3vw, 16px); }
+    .kv-line{
+        width: 1px;
+        height: clamp(24px, 8vw, 40px);
+        margin: clamp(14px, 4vw, 20px) 0;
+    }
+}
+
+/* -------------------------------------
+   About (most important)
+   - Keep grid; keep background title absolute
+   - Use clamp + transform so it moves smoothly by range
+------------------------------------- */
+.about{
+    overflow-x: hidden;
+}
+
+.ab__section{
+    position: relative; /* anchor for absolute background title */
+    padding-top: var(--section-pad-y);
+    padding-bottom: var(--section-pad-y);
+    min-height: clamp(420px, 75svh, 851px);
+}
+
+/* Force background title to be absolute (do not remove absolute) */
+.ab-title{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(clamp(-34%, -22vw, -14%), -50%);
+    width: max-content;
+    margin-left: 0; /* override previous negative margin approach */
+    z-index: 0;
+}
+.ab-title h1{
+    font-size: clamp(64px, 14vw, 250px);
+    line-height: 0.9;
+}
+
+/* Make the right content never overflow the grid */
+.ab-right{
+    min-width: 0;
+}
+.ab-img{
+    max-width: min(817px, 100%);
+}
+.ab-text{
+    margin-top: clamp(10px, 3vw, 35px);
+}
+
+/* Mobile spec (<=767px): 212px min-height + title 56px left/center, image top 30, text below 10, bottom padding 30 */
+@media (max-width: 767px){
+    .ab__section{
+        grid-template-columns: 1fr; /* mobile only: 1 column */
+        min-height: 212px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        row-gap: 10px;
+    }
+
+    .ab-title{
+        left: var(--container-pad);
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+    .ab-title h1{
+        font-size: 56px;
+    }
+
+    .ab-right{
+        grid-column: 1;
+        align-items: flex-start;
+    }
+    .ab-img{
+        justify-content: flex-start;
+        margin-top: 30px;
+    }
+    .ab-text{
+        margin-top: 10px;
+        text-align: left;
+    }
+}
+
+/* -------------------------------------
+   Program
+   - Keep horizontal ticket through tablet
+   - Reduce absolute usage: layer with CSS grid instead of absolute inset
+   - Keep medal half-overlapped on top-right
+------------------------------------- */
+.ticket-premium,
+.ticket-basic{
+    display: grid;
+}
+.ticket-premium > .ticket-bg,
+.ticket-basic > .ticket-bg,
+.ticket-premium > .ticket-content,
+.ticket-basic > .ticket-content{
+    grid-area: 1 / 1;
+}
+
+/* ticket-content no longer relies on absolute positioning for desktop/tablet */
+@media (min-width: 768px){
+    .ticket-content{
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: 100%;
+    }
+
+    .tic-medal{
+        top: 0;
+        right: 0;
+        transform: translate(35%, -35%);
+    }
+}
+
+/* Mobile: keep existing vertical card behavior, but ensure medal overlaps top-right by half */
+@media (max-width: 767px){
+    .ticket-premium,
+    .ticket-basic{
+        max-width: min(360px, 100%);
+    }
+
+    .tic-medal{
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(35%, -35%);
+        margin: 0;
+        z-index: 4;
+    }
+}
+
+/* -------------------------------------
+   Header drawer: keep hover effects on PC, drawer on <=1024
+------------------------------------- */
+@media (min-width: 1025px){
+    .menu{ display: none; }
+    .navi{
+        position: static;
+        transform: none;
+        height: auto;
+        width: auto;
+        max-width: none;
+        padding: 0;
+        flex-direction: row;
+        align-items: center;
+        overflow: visible;
+        box-shadow: none;
+        background: transparent;
+    }
+}
+
 
 /* header */
 .header_wrap{
@@ -1297,4 +1543,524 @@ body.nav-open {
         padding: clamp(48px, 14vw, 130px) clamp(8px, 3vw, 16px);
         box-sizing: border-box;
     }
+}
+
+/* =========================================================
+   Responsive overrides (FINAL, placed at EOF to win cascade)
+========================================================= */
+:root{
+    --container-max: 1244px;
+    --container-pad: clamp(16px, 4vw, 40px);
+    --section-pad-y: clamp(60px, 10vw, 130px);
+    --radius-lg: clamp(24px, 4vw, 50px);
+}
+
+.nav,
+.kv__section,
+.ab__section,
+.pr__section,
+.ba__section,
+.po-wrap,
+.sc__section,
+.as__section,
+.la__section,
+.vc__section,
+.foot__section{
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-pad);
+    padding-right: var(--container-pad);
+    box-sizing: border-box;
+}
+
+/* Fix invalid clamp usage in existing header/kv */
+.nav,
+.kv__section{
+    padding-left: var(--container-pad);
+    padding-right: var(--container-pad);
+}
+
+.header_wrap{
+    padding-top: clamp(20px, 4vw, 40px);
+    padding-bottom: clamp(20px, 4vw, 40px);
+}
+
+.program{
+    padding: var(--section-pad-y) 0;
+}
+
+.before-after{
+    padding-top: var(--section-pad-y);
+    padding-bottom: clamp(120px, 18vw, 260px); /* keep extra space before point section */
+}
+
+.sc-wrap,
+.as-wrap,
+.la-wrap{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: var(--section-pad-y);
+    padding-bottom: var(--section-pad-y);
+    box-sizing: border-box;
+}
+
+.vc-wrap{
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: clamp(48px, 8vw, 80px);
+    padding-bottom: clamp(48px, 8vw, 80px);
+}
+
+.vc-bg{
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 4vw, 50px) var(--container-pad);
+    box-sizing: border-box;
+}
+
+/* KV: mobile text above image (order) */
+@media (max-width: 767px){
+    .kv-wrap{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .kv-text{ order: 1; align-items: center; }
+    .kv-img{ order: 2; width: 100%; max-width: min(596px, 92vw); margin-top: clamp(8px, 3vw, 16px); }
+}
+
+/* Header: PC hover 유지 + 모바일 드로어 유지 */
+@media (min-width: 1025px){
+    .menu{ display: none; }
+    .navi{
+        position: static;
+        transform: none;
+        height: auto;
+        width: auto;
+        max-width: none;
+        padding: 0;
+        flex-direction: row;
+        align-items: center;
+        overflow: visible;
+        box-shadow: none;
+        background: transparent;
+    }
+}
+
+/* About: absolute title + clamp/transform positioning */
+.ab__section{
+    position: relative;
+    padding-top: var(--section-pad-y);
+    padding-bottom: var(--section-pad-y);
+    min-height: clamp(420px, 75svh, 851px);
+}
+
+.ab-title{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(clamp(-34%, -22vw, -14%), -50%);
+    width: max-content;
+    margin-left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+.ab-title h1{
+    font-size: clamp(64px, 14vw, 250px);
+    line-height: 0.9;
+}
+
+.ab-text{
+    margin-top: clamp(10px, 3vw, 35px);
+}
+
+@media (max-width: 767px){
+    .ab__section{
+        grid-template-columns: 1fr;
+        min-height: 212px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        row-gap: 10px;
+    }
+    .ab-title{
+        left: var(--container-pad);
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+    .ab-title h1{
+        font-size: 56px;
+    }
+    .ab-right{
+        grid-column: 1;
+        align-items: flex-start;
+    }
+    .ab-img{
+        justify-content: flex-start;
+        margin-top: 30px;
+    }
+    .ab-text{
+        margin-top: 10px;
+        text-align: left;
+    }
+}
+
+/* -----------------------------
+   About: <=1024부터 배경 타이틀을 이미지 "위쪽"으로
+   - position 유지 (absolute)
+   - translate/clamp로 자연 이동
+----------------------------- */
+@media (max-width: 1024px){
+    .ab-title{
+        top: clamp(18%, 18vw, 30%);
+        transform: translate(clamp(-18%, -14vw, -8%), -50%);
+    }
+}
+
+/* Program: reduce absolute dependency (grid layering), keep medal overlap */
+.ticket-premium,
+.ticket-basic{
+    display: grid;
+}
+.ticket-premium > .ticket-bg,
+.ticket-basic > .ticket-bg,
+.ticket-premium > .ticket-content,
+.ticket-basic > .ticket-content{
+    grid-area: 1 / 1;
+}
+
+@media (min-width: 768px){
+    .ticket-content{
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: 100%;
+        align-items: flex-start;
+        gap: clamp(10px, 2vw, 24px);
+        padding: clamp(18px, 3vw, 40px) clamp(16px, 4vw, 100px);
+        box-sizing: border-box;
+    }
+    .tic-medal{
+        top: 0;
+        right: 0;
+        /* 세로 기준 약 50% 걸치기 */
+        transform: translate(35%, -50%);
+    }
+}
+
+@media (max-width: 767px){
+    .ticket-premium,
+    .ticket-basic{
+        max-width: min(360px, 100%);
+    }
+    .tic-medal{
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(35%, -50%);
+        margin: 0;
+        z-index: 4;
+    }
+}
+
+/* Program overflow fix: 티켓이 줄면 내부도 같이 축소/유지 */
+.ticket-content{
+    gap: clamp(10px, 2vw, 24px);
+}
+.ticket-left,
+.ticket-right{
+    min-width: 0;
+}
+.ticket-left{
+    width: auto;
+    flex: 1 1 0;
+    gap: clamp(6px, 1.2vw, 12px);
+}
+.ticket-right{
+    flex: 0 1 clamp(180px, 26vw, 280px);
+    gap: clamp(12px, 2vw, 20px);
+}
+.tic-line{
+    margin: 0 clamp(10px, 2vw, 28px) 0 clamp(10px, 2vw, 20px);
+}
+.ticket-left h2{
+    line-height: 1.45;
+    word-break: keep-all;
+}
+.ticket-left ul{
+    overflow-wrap: anywhere;
+}
+.btn{
+    width: clamp(160px, 22vw, 200px);
+    padding: 0 clamp(14px, 2vw, 20px);
+}
+.arrow{
+    margin-left: clamp(10px, 2vw, 20px);
+}
+
+@media (max-width: 767px){
+    /* 모바일: 섹션 높이/여백 증가해서 티켓 2개가 잘리지 않도록 */
+    .program{
+        padding-top: clamp(60px, 14vw, 120px);
+        padding-bottom: clamp(90px, 18vw, 160px);
+    }
+}
+
+/* -----------------------------
+   Point: 컨테이너 축소에 맞춰 텍스트도 함께 자연 축소
+----------------------------- */
+.point-text{
+    width: 100%;
+    max-width: min(980px, 100%);
+    padding-left: clamp(8px, 2vw, 16px);
+    padding-right: clamp(8px, 2vw, 16px);
+    box-sizing: border-box;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+/* -----------------------------
+   5-Step Care: tablet 이하 overflow/줄바꿈 안정화 + 카드 clamp 축소
+----------------------------- */
+.sc-list{
+    overflow: hidden; /* keep */
+    padding-top: clamp(36px, 7vw, 48px);
+}
+.sc-list ul{
+    overflow: visible;
+    padding-left: 0;
+    padding-right: 0;
+}
+.sc-list li{
+    width: auto;
+    max-width: none;
+    min-width: clamp(160px, 20%, 217px);
+    flex: 1 1 clamp(160px, 20%, 217px);
+    border-radius: clamp(16px, 2vw, 20px);
+}
+
+.sc-list li h2{
+    top: clamp(-40px, -5vw, -28px);
+    left: 50%;
+    transform: translate(-50%);
+}
+@media (max-width: 1023px){
+    .sc-list ul{
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: clamp(28px, 7vw, 48px);
+        column-gap: clamp(12px, 3vw, 20px);
+    }
+}
+
+/* -----------------------------
+   Gallery(arte-space): 4장 자동 슬라이드
+   - active/prev/next opacity
+----------------------------- */
+.arte-space .as__section{
+    max-width: none; /* 1440 제한 제거 */
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.arte-space,
+.arte-space .as__section{
+    overflow: hidden;
+}
+
+.as-title{
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-pad);
+    padding-right: var(--container-pad);
+    box-sizing: border-box;
+}
+
+.as-images{
+    width: 100%;
+    margin-top: clamp(24px, 6vw, 50px);
+}
+
+.as-slider{
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: visible;
+    --drag-x: 0px;
+    height: min(521px, 52vw);
+    min-height: clamp(220px, 46vw, 360px);
+    touch-action: pan-y;
+    cursor: grab;
+}
+.as-slider.dragging{
+    cursor: grabbing;
+}
+.as-slider.dragging .as-slide{
+    transition: none;
+}
+
+.as-slide{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(1139.5px, 78vw);
+    height: auto;
+    aspect-ratio: 1139.5 / 521;
+    transform: translate(calc(-50% + var(--drag-x)), -50%) scale(0.88);
+    opacity: 0;
+    z-index: 1;
+    transition: transform 600ms ease, opacity 600ms ease;
+    will-change: transform, opacity;
+    pointer-events: none;
+}
+
+.as-slide img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50px;
+}
+
+.as-slide.active{
+    opacity: 1;
+    transform: translate(calc(-50% + var(--drag-x)), -50%) scale(1);
+    z-index: 3;
+    pointer-events: none; /* 중앙 클릭 반응 없음 */
+}
+
+.as-slide.prev,
+.as-slide.next{
+    opacity: 0.5;
+    z-index: 2;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.as-slide.prev{
+    transform: translate(calc(-50% - 46vw + var(--drag-x)), -50%) scale(0.88);
+}
+
+.as-slide.next{
+    transform: translate(calc(-50% + 46vw + var(--drag-x)), -50%) scale(0.88);
+}
+
+.as-slide.hidden{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.as-images > h2{
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-pad);
+    padding-right: var(--container-pad);
+    margin-top: clamp(16px, 4vw, 50px);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Tablet: 간격 줄이기 + scale 조금 증가 */
+@media (max-width: 1023px){
+    .as-slide{
+        width: min(1139.5px, 86vw);
+    }
+    .as-slide.prev{
+        transform: translate(calc(-50% - 40vw + var(--drag-x)), -50%) scale(0.9);
+    }
+    .as-slide.next{
+        transform: translate(calc(-50% + 40vw + var(--drag-x)), -50%) scale(0.9);
+    }
+}
+
+/* Mobile: 중앙만 표시 */
+@media (max-width: 767px){
+    .as-slider{
+        height: min(521px, 70vw);
+    }
+    .as-slide{
+        width: min(1139.5px, 92vw);
+    }
+    .as-slide.prev,
+    .as-slide.next{
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+/* =========================================================
+   Global fluid system (override-only)
+   Goal: image / text / spacing shrink together (no solo scaling)
+========================================================= */
+
+/* User-requested common container utility (optional) */
+.section{
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding: var(--container-pad);
+    box-sizing: border-box;
+}
+
+/* Typography: apply clamp defaults to all headings/paragraphs (component classes still win) */
+h1{ font-size: clamp(2rem, 4.6vw, 5.125rem); line-height: 1.15; }
+h2{ font-size: clamp(1.25rem, 2.2vw, 2rem); line-height: 1.25; }
+h3{ font-size: clamp(1rem, 1.6vw, 1.5rem); line-height: 1.35; }
+p{ font-size: clamp(0.95rem, 1.15vw, 1.125rem); line-height: 1.6; }
+
+/* Images: unified responsive behavior */
+img{
+    max-width: 100%;
+    height: auto;
+}
+
+/* Prevent any horizontal scroll */
+body{
+    overflow-x: hidden;
+}
+
+/* Spacing tokens */
+:root{
+    --space-1: clamp(8px, 1.2vw, 12px);
+    --space-2: clamp(12px, 2vw, 20px);
+    --space-3: clamp(16px, 3vw, 40px);
+    --space-4: clamp(24px, 5vw, 55px);
+}
+
+/* Normalize common gaps/paddings (keep PC max same) */
+.navi{ gap: var(--space-3); }
+.kv-wrap{ gap: var(--space-4); padding-bottom: clamp(40px, 10vw, 130px); }
+.ba-wrap{ gap: var(--space-4); }
+.ba-items{ gap: var(--space-2); }
+.ticket-list{ gap: var(--space-2); }
+.sc-list ul{ gap: var(--space-2); }
+
+/* About: title size + position naturally (already absolute) */
+.ab-title h1{
+    font-size: clamp(56px, 14vw, 250px);
+}
+.ab-title{
+    transform: translate(clamp(-34%, -22vw, -14%), -50%);
+}
+
+/* Program: ensure inner content shrinks with ticket */
+.ticket-content{
+    padding: clamp(18px, 3vw, 40px) clamp(16px, 4vw, 100px);
+    gap: clamp(10px, 2vw, 24px);
+}
+.ticket-left{ gap: clamp(6px, 1.2vw, 12px); }
+.ticket-right{ gap: clamp(12px, 2vw, 20px); }
+
+/* Step-care: remove fixed feel, wrap smoothly */
+.sc-list li{
+    width: clamp(160px, 24vw, 217px);
+    flex: 1 1 clamp(160px, 24vw, 217px);
+}
+
+/* Gallery: scale with parent (width already fluid); keep radius responsive-safe */
+.as-slide img{
+    border-radius: 50px;
 }

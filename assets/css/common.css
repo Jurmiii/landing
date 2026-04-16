@@ -36,8 +36,12 @@
     font-display: swap;
 }
 
-body,p{
-    font-size: 16px;
+body{
+    font-size: clamp(15px, 1.05vw, 16px);
+}
+p{
+    font-size: clamp(15px, 1.05vw, 18px);
+    line-height: 1.6;
 }
 
 /* style guide */ 
@@ -149,4 +153,25 @@ body,p{
     .font-body{
         font-size: 1rem;
     }
+}
+
+/* =========================================================
+   Fluid type overrides (keep existing rules above)
+   - Avoid sudden jumps between breakpoints
+   - Prefer clamp() per project rule
+========================================================= */
+.font-h1{
+    font-size: clamp(2rem, 4.6vw, 5.125rem); /* 32px ~ 82px */
+}
+
+.font-h2{
+    font-size: clamp(1.25rem, 2.2vw, 2rem); /* 20px ~ 32px */
+}
+
+.font-h3{
+    font-size: clamp(1rem, 1.6vw, 1.5rem); /* 16px ~ 24px */
+}
+
+.font-body{
+    font-size: clamp(0.95rem, 1.15vw, 1.125rem); /* ~15px ~ 18px */
 }
