@@ -738,20 +738,31 @@ body.nav-open {
 .po-wrap{
     position: relative;
     max-width: 1244px;
-    margin: auto;
+    width: 100%;
+    margin: 0 auto;
     z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding: clamp(72px, 18vw, 152px) clamp(16px, 4vw, 24px);
+    padding-left: clamp(16px, 4vw, 24px);
+    padding-right: clamp(16px, 4vw, 24px);
     box-sizing: border-box;
 }
 
 /* point text */
 .point-text{
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
     text-align: center;
-    line-height: 1.5;
+    line-height: 1.4;
+}
+
+.point-text p{
+    margin: 0;
+    line-height: 1.4;
 }
 
 .text1{
@@ -872,7 +883,7 @@ body.nav-open {
 
 .as-wrap{
     width: 100%;
-    padding: 130px 0;
+    padding: var(--section-pad-y) 0;
 }
 
 /* arte space title */
@@ -896,16 +907,18 @@ body.nav-open {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: clamp(8px, 2vw, 20px);
 }
 
 .as-images img{
     width: 100%;
     max-width: 100%;
     height: auto;
+    display: block;
 }
 
 .as-images h2{
-    margin-top: 50px;
+    margin-top: 0;
 }
 
 /* location arte section */
@@ -1879,6 +1892,8 @@ body.nav-open {
 .as-images{
     width: 100%;
     margin-top: clamp(24px, 6vw, 50px);
+    line-height: 0;
+    padding: 0;
 }
 
 .as-slider{
@@ -1889,10 +1904,11 @@ body.nav-open {
     list-style: none;
     overflow: visible;
     --drag-x: 0px;
-    height: min(521px, 52vw);
-    min-height: clamp(220px, 46vw, 360px);
+    aspect-ratio: 1139.5 / 521;
+    height: auto;
     touch-action: pan-y;
     cursor: grab;
+    line-height: 0;
 }
 .as-slider.dragging{
     cursor: grabbing;
@@ -1911,7 +1927,7 @@ body.nav-open {
     transform: translate(calc(-50% + var(--drag-x)), -50%) scale(0.88);
     opacity: 0;
     z-index: 1;
-    transition: transform 600ms ease, opacity 600ms ease;
+    transition: transform 0.4s ease, opacity 0.4s ease;
     will-change: transform, opacity;
     pointer-events: none;
 }
@@ -1958,9 +1974,10 @@ body.nav-open {
     margin-right: auto;
     padding-left: var(--container-pad);
     padding-right: var(--container-pad);
-    margin-top: clamp(16px, 4vw, 50px);
+    margin: 0;
     text-align: center;
     box-sizing: border-box;
+    line-height: 1.2;
 }
 
 /* Tablet: 간격 줄이기 + scale 조금 증가 */
@@ -1978,16 +1995,29 @@ body.nav-open {
 
 /* Mobile: 중앙만 표시 */
 @media (max-width: 767px){
-    .as-slider{
-        height: min(521px, 70vw);
-    }
+    .as-slider{ }
     .as-slide{
         width: min(1139.5px, 92vw);
     }
+    .as-slide{
+        transform: translate(calc(-50% + var(--drag-x)), -50%) scale(0.92);
+    }
+    .as-slide.active{
+        transform: translate(calc(-50% + var(--drag-x)), -50%) scale(1);
+        opacity: 1;
+    }
     .as-slide.prev,
     .as-slide.next{
-        opacity: 0;
-        pointer-events: none;
+        opacity: 0.5;
+        pointer-events: auto;
+        cursor: pointer;
+        transform: translate(calc(-50% + var(--drag-x)), -50%) scale(0.85);
+    }
+    .as-slide.prev{
+        transform: translate(calc(-50% - 34vw + var(--drag-x)), -50%) scale(0.85);
+    }
+    .as-slide.next{
+        transform: translate(calc(-50% + 34vw + var(--drag-x)), -50%) scale(0.85);
     }
 }
 

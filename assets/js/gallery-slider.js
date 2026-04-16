@@ -6,14 +6,25 @@
   var caption = document.querySelector(".as-images > h2");
   if (!slides.length) return;
 
+  // Image order (space1~4) => title mapping
+  // - space1 is kept as-is from existing markup when possible
+  var titles = (function () {
+    var fallbackSpace1 = caption && caption.textContent ? caption.textContent.trim() : "";
+    return [
+      fallbackSpace1 || "리셉션 라운지",
+      "뷰티컨설팅라운지",
+      "프라이빗 케어룸",
+      "릴렉스 라운지",
+    ];
+  })();
+
   var activeIndex = 0;
   var intervalMs = 3500;
   var isDragging = false;
   var startX = 0;
-  var startY = 0;
+  var currentTranslate = 0;
+  var prevTranslate = 0;
   var lastX = 0;
-  var lastY = 0;
-  var lockedAxis = null; // "x" | "y" | null
   var ignoreClickUntil = 0;
 
   function mod(n, m) {
@@ -34,8 +45,12 @@
     });
 
     if (caption) {
-      var img = slides[activeIndex].querySelector("img");
-      caption.textContent = (img && img.alt) ? img.alt : "Gallery";
+      var title = titles[activeIndex];
+      if (!title) {
+        var img = slides[activeIndex].querySelector("img");
+        title = (img && img.alt) ? img.alt : "Gallery";
+      }
+      caption.textContent = title;
     }
   }
 
@@ -55,7 +70,6 @@
 
   function stopDrag(reset) {
     isDragging = false;
-    lockedAxis = null;
     slider.classList.remove("dragging");
     if (reset) setDragX(0);
   }
@@ -97,8 +111,8 @@
     var p = getPointFromEvent(ev);
     isDragging = true;
     startX = lastX = p.x;
-    startY = lastY = p.y;
-    lockedAxis = null;
+    prevTranslate = 0;
+    currentTranslate = 0;
     slider.classList.add("dragging");
     pause();
   }
@@ -107,34 +121,31 @@
     if (!isDragging) return;
     var p = getPointFromEvent(ev);
     lastX = p.x;
-    lastY = p.y;
-
     var dx = lastX - startX;
-    var dy = lastY - startY;
-
-    if (!lockedAxis) {
-      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-      lockedAxis = Math.abs(dx) >= Math.abs(dy) ? "x" : "y";
-    }
-
-    if (lockedAxis === "x") {
-      setDragX(dx);
-      if (ev.cancelable) ev.preventDefault();
-    }
+    currentTranslate = prevTranslate + dx;
+    setDragX(currentTranslate);
+    if (ev.cancelable) ev.preventDefault();
   }
 
   function onEnd() {
     if (!isDragging) return;
-    var dx = lastX - startX;
     var threshold = Math.max(80, Math.round(slider.clientWidth * 0.12));
+    var movedDistance = currentTranslate - prevTranslate;
 
-    stopDrag(true);
+    stopDrag(false);
     ignoreClickUntil = Date.now() + 250;
 
-    if (Math.abs(dx) >= threshold) {
-      if (dx < 0) next();
-      else prev();
+    // Snap to nearest (prev/next) if moved enough; otherwise return to center
+    if (movedDistance <= -threshold) {
+      next();
+    } else if (movedDistance >= threshold) {
+      prev();
     }
+
+    // Animate back to center (or centered on new active)
+    prevTranslate = 0;
+    currentTranslate = 0;
+    setDragX(0);
 
     resume();
   }
