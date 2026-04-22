@@ -175,3 +175,298 @@ p{
 .font-body{
     font-size: clamp(0.95rem, 1.15vw, 1.125rem); /* ~15px ~ 18px */
 }
+
+
+/* =========================================================
+   Arte Aesthetic UI System (additive layer)
+   - Do not change existing HTML / classnames
+   - Provide reusable tokens + components + grid + utilities
+========================================================= */
+
+/* 1) Color system (CSS variables) */
+:root{
+    --color-primary: #E5E5E3;
+    --color-secondary: #EB5F85;
+    --color-point: #FEE7EF;
+
+    --text-1: #64686B;
+    --text-2: #727272;
+    --text-3: #525252;
+
+    --ui-border: #BFBFBF;
+    --ui-bg: #ffffff;
+    --ui-radius-pill: 100px;
+
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+}
+
+/* 2) Typography system (rem-based) */
+.h1{
+    font-size: 5.125rem; /* 82px */
+    line-height: 1.08;
+    font-family: 'KoPub Batang', serif;
+    font-weight: 300;
+    color: var(--text-1);
+}
+.h2{
+    font-size: 2rem; /* 32px */
+    line-height: 1.25;
+    font-family: 'KoPub Batang', serif;
+    font-weight: 300;
+    color: var(--text-2);
+}
+.h3{
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.35;
+    font-family: 'KoPub Batang', serif;
+    font-weight: 300;
+    color: var(--text-2);
+}
+.body{
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.6;
+    font-family: 'Pretendard', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 400;
+    color: var(--text-2);
+}
+.logo{
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.2;
+    font-family: Didot, 'Didot LT STD', 'Bodoni MT', serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-1);
+}
+
+/* 3) Button components */
+:where(.btn-primary, .btn-sub, .btn-icon, .btn-top){
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border-radius: var(--ui-radius-pill);
+    padding: 0.875rem 1.375rem; /* touch-friendly baseline */
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease, opacity 160ms ease;
+}
+:where(.btn-primary, .btn-sub, .btn-icon, .btn-top):focus-visible{
+    outline: 2px solid color-mix(in srgb, var(--color-secondary) 55%, white);
+    outline-offset: 3px;
+}
+
+.btn-primary{
+    background: var(--color-secondary);
+    color: #fff;
+}
+.btn-primary:hover{
+    background: color-mix(in srgb, var(--color-secondary) 88%, black);
+}
+
+.btn-sub{
+    background: transparent;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+}
+.btn-sub:hover{
+    background: color-mix(in srgb, var(--color-secondary) 10%, transparent);
+}
+
+.btn-icon{
+    padding: 0.75rem 1rem;
+    background: var(--ui-bg);
+    border-color: var(--ui-border);
+    color: var(--text-2);
+}
+.btn-icon:hover{
+    border-color: color-mix(in srgb, var(--ui-border) 70%, var(--text-2));
+}
+
+.btn-top{
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: 0;
+    background: var(--ui-bg);
+    border-color: var(--ui-border);
+    color: var(--text-2);
+}
+.btn-top:hover{
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--ui-border) 70%, var(--text-2));
+}
+
+/* 4) Input form components (DB area) */
+.input-box{
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: 1px solid var(--ui-border);
+    background: var(--ui-bg);
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    box-sizing: border-box;
+}
+.input-box :where(input, select, textarea){
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    outline: none;
+    font: inherit;
+    color: inherit;
+}
+.input-box :where(button, .icon, img, svg){
+    flex: 0 0 auto;
+}
+
+.input-large{
+    padding: 1.125rem 1.25rem;
+    border-radius: 0.875rem;
+}
+
+.input-group{
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* 5) Grid system (Arte 기준; opt-in only) */
+.container{
+    max-width: 1920px;
+    margin: 0 auto;
+    padding-left: 338px;
+    padding-right: 338px;
+    box-sizing: border-box;
+}
+.container-wide{
+    max-width: 1920px;
+    margin: 0 auto;
+    padding-left: clamp(16px, 6vw, 160px);
+    padding-right: clamp(16px, 6vw, 160px);
+    box-sizing: border-box;
+}
+
+.grid{
+    display: grid;
+    gap: clamp(12px, 2vw, 24px);
+}
+.grid-2{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-3{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* 6) Responsive design */
+@media (max-width: 1280px){
+    .container{
+        padding-left: 160px;
+        padding-right: 160px;
+    }
+    .h1{ font-size: 4rem; }
+}
+
+@media (max-width: 1024px){
+    .container{
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+    .h1{ font-size: 3.5rem; }
+    .h2{ font-size: 1.75rem; }
+    .h3{ font-size: 1.375rem; }
+    .body{ font-size: 1.0625rem; }
+
+    :where(.btn-primary, .btn-sub, .btn-icon){
+        padding: 0.95rem 1.45rem;
+    }
+    .input-box{ padding: 0.95rem 1rem; }
+}
+
+@media (max-width: 768px){
+    .container{
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+    .h1{ font-size: 2.5rem; }
+    .h2{ font-size: 1.5rem; }
+    .h3{ font-size: 1.125rem; }
+    .body{ font-size: 1rem; }
+
+    .grid-2,
+    .grid-3{
+        grid-template-columns: 1fr;
+    }
+
+    :where(.btn-primary, .btn-sub, .btn-icon){
+        width: 100%;
+        padding: 1rem 1.25rem;
+    }
+    .btn-top{
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+    .input-group{
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .input-box{ padding: 1rem 1rem; }
+}
+
+@media (max-width: 480px){
+    .container{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .h1{ font-size: 2rem; }
+    .h2{ font-size: 1.25rem; }
+    .h3{ font-size: 1rem; }
+
+    :where(.btn-primary, .btn-sub, .btn-icon){
+        padding: 1.05rem 1.25rem;
+    }
+    .input-box{ padding: 1.05rem 1rem; }
+}
+
+/* 7) Utility classes */
+.flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flex-between{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.text-center{ text-align: center; }
+
+.mt-0{ margin-top: 0 !important; }
+.mt-1{ margin-top: var(--space-1) !important; }
+.mt-2{ margin-top: var(--space-2) !important; }
+.mt-3{ margin-top: var(--space-3) !important; }
+.mt-4{ margin-top: var(--space-4) !important; }
+.mt-5{ margin-top: var(--space-5) !important; }
+.mt-6{ margin-top: var(--space-6) !important; }
+
+.mb-0{ margin-bottom: 0 !important; }
+.mb-1{ margin-bottom: var(--space-1) !important; }
+.mb-2{ margin-bottom: var(--space-2) !important; }
+.mb-3{ margin-bottom: var(--space-3) !important; }
+.mb-4{ margin-bottom: var(--space-4) !important; }
+.mb-5{ margin-bottom: var(--space-5) !important; }
+.mb-6{ margin-bottom: var(--space-6) !important; }
+
+.p-0{ padding: 0 !important; }
+.p-1{ padding: var(--space-1) !important; }
+.p-2{ padding: var(--space-2) !important; }
+.p-3{ padding: var(--space-3) !important; }
+.p-4{ padding: var(--space-4) !important; }
+.p-5{ padding: var(--space-5) !important; }
+.p-6{ padding: var(--space-6) !important; }
