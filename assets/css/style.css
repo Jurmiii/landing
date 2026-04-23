@@ -2076,3 +2076,20 @@ body{
     width: 100%;
     text-align: center;
 }
+
+/* =========================================================
+   Step-care card circle clipping fix (FINAL override)
+   - Keep existing HTML / classnames
+   - Clip the circle by card overflow in all breakpoints
+========================================================= */
+.sc-list li{
+    position: relative;
+    overflow: hidden;
+}
+
+.sc-list li h2{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+}
