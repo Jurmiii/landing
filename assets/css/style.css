@@ -14,6 +14,9 @@
 
 /* Common container rule across sections (no HTML change) */
 
+html{
+    scroll-behavior: smooth;
+}
 
 /* Normalize section vertical paddings to fluid values */
 .header_wrap{
@@ -820,6 +823,7 @@ body.nav-open {
 .sc-list li img{
     width: clamp(40px, 10vw, 50px);
     height: auto;
+    border-radius: 0;
     margin: 0 auto;
     margin-top: 20px;
 }
@@ -851,35 +855,24 @@ body.nav-open {
     text-align: center;
 }
 
+.as-title h1,
+.as-title h2{
+    margin: 0;
+}
+
 .as-title h1{
     font-family: 'KoPub Batang', serif;
+    line-height: 1.2;
 }
 
 .as-title h2{
     font-family: 'Pretendard';
     font-weight: 300;
-    line-height: 3.5;
+    line-height: 1.4;
+    margin-top: clamp(12px, 2vw, 20px);
 }
 
-.as-images{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: clamp(8px, 2vw, 20px);
-}
-
-.as-images img{
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-.as-images h2{
-    margin-top: 0;
-}
+/* arte-space .as-images: carousel rules in Gallery(arte-space) block */
 
 /* location arte section */
 .location-arte{
@@ -975,6 +968,7 @@ body.nav-open {
 /* visit consultation section */
 .visit-consulatation{
     width: 100%;
+    background-color: #EB5F85;
 }
 
 .vc__section{
@@ -989,9 +983,6 @@ body.nav-open {
 .vc-bg{
     max-width: 1244px;
     margin: 0 auto;
-    background-color: #E5E5E3;
-    border-radius: 50px;
-    padding: 50px 105px;
 }
 
 /* visit consultation title */
@@ -1042,7 +1033,6 @@ body.nav-open {
 .db5{
     width: 100%;
     max-width: 1035px;
-    margin: 0 auto;
     margin-bottom: 35px;
 }
 
@@ -1111,6 +1101,40 @@ body.nav-open {
     flex: 1 1 0;
 }
 
+/* checkbox (visit consultation) */
+.checkbox-wrap{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    position: relative; /* anchor hidden input */
+}
+
+.checkbox-wrap input{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkmark{
+    position: relative; /* anchor for ::after */
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1.5px solid #525252;
+    background: #fff;
+    flex: 0 0 auto;
+}
+
+.checkbox-wrap input:checked + .checkmark{
+    background: #fff;
+    border-color: #525252;
+}
+
 .checkbox-wrap input:checked + .checkmark::after{
     content: "";
     position: absolute;
@@ -1118,7 +1142,7 @@ body.nav-open {
     top: 2px;
     width: 6px;
     height: 12px;
-    border: solid#fff;
+    border: solid #525252;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
@@ -1131,7 +1155,7 @@ body.nav-open {
 .vc-btn{
     border-radius: 100px;
     padding: 40px 15px;
-    background-color: #EB5F85;
+    background-color: #fff;
     display: flex;
     width: clamp(200px, 100%, 1035px);
     height: 70px;
@@ -1194,7 +1218,7 @@ body.nav-open {
         box-sizing: border-box;
     }
 
-    .sc__section,
+    /* .sc__section, */
     .as__section,
     .foot__section{
         padding-left: clamp(16px, 3vw, 40px);
@@ -1312,7 +1336,6 @@ body.nav-open {
     .vc-bg{
         padding-left: clamp(28px, 5vw, 105px);
         padding-right: clamp(28px, 5vw, 105px);
-        box-sizing: border-box;
     }
 }
 
@@ -1402,9 +1425,6 @@ body.nav-open {
         max-width: 340px;
         margin-left: auto;
         margin-right: auto;
-        background-image: url(../images/ticket-c.png);
-        background-repeat: no-repeat;
-        background-position: top center;
         background-size: 100% auto;
         padding: clamp(16px, 4vw, 24px);
         box-sizing: border-box;
@@ -1600,12 +1620,6 @@ body.nav-open {
     padding-right: 0;
     padding-top: clamp(48px, 8vw, 80px);
     padding-bottom: clamp(48px, 8vw, 80px);
-}
-
-.vc-bg{
-    border-radius: var(--radius-lg);
-    padding: clamp(24px, 4vw, 50px) var(--container-pad);
-    box-sizing: border-box;
 }
 
 /* KV: mobile text above image (order) */
@@ -1836,157 +1850,182 @@ body.nav-open {
 }
 
 /* -----------------------------
-   Gallery(arte-space): 4장 자동 슬라이드
-   - active/prev/next opacity
+   Gallery(arte-space): clone-loop carousel (.slider-wrapper > .slider > .slider-track)
 ----------------------------- */
 .arte-space .as__section{
-    max-width: none; /* 1440 제한 제거 */
+    max-width: none;
+    width: 100%;
     padding-left: 0;
     padding-right: 0;
 }
 
 .arte-space,
 .arte-space .as__section{
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 .as-title{
     max-width: var(--container-max);
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: clamp(32px, 5vw, 55px);
     padding-left: var(--container-pad);
     padding-right: var(--container-pad);
     box-sizing: border-box;
 }
 
-.as-images{
-    width: 100%;
-    margin-top: clamp(24px, 6vw, 50px);
+.arte-space .as-images{
+    width: 100vw;
+    max-width: 100%;
+    position: relative;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    overflow-x: hidden;
     line-height: 0;
+    height: auto;
+}
+
+.arte-space .slider-wrapper{
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
     padding: 0;
 }
 
-.as-slider{
-    position: relative;
+.arte-space .slider{
     width: 100%;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    list-style: none;
-    overflow: visible;
-    --drag-x: 0px;
-    aspect-ratio: 1139.5 / 521;
-    height: auto;
-    touch-action: pan-y;
-    cursor: grab;
-    line-height: 0;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    /* 부모 as-images가 100vw 풀브리스 = 뷰포트 폭 */
+    max-width: 100%;
 }
-.as-slider.dragging{
+
+.arte-space .slider.dragging{
     cursor: grabbing;
 }
-.as-slider.dragging .as-slide{
+
+.arte-space .slider.dragging .slider-track{
+    transition: none;
+    cursor: grabbing;
+}
+
+/* 무한 루프 점프 시: 슬라이드 opacity/scale transition만 잠궈 "한 프레임 뒤" 페이드·점프로 보이지 않게 */
+.arte-space .slider.is-instant-reposition .slide{
     transition: none;
 }
 
-.as-slide{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: min(1139.5px, 78vw);
+.arte-space .slider-track{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: max-content;
+    max-width: none;
+    will-change: transform;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.4s ease;
+    cursor: grab;
+    line-height: 0;
+    font-size: 0;
+}
+
+.arte-space .slider-track:active{
+    cursor: grabbing;
+}
+
+.arte-space .slide{
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: stretch;
+    width: clamp(240px, 65vw, 1139.5px);
+    /* total gap: 10px ~ 30px (양쪽 합) */
+    margin: 0 clamp(5px, 1.5vw, 15px);
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+    flex-shrink: 0;
+    font-size: 1rem;
+    line-height: normal;
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+    opacity: 0.5;
+    transform: scale(0.9);
+}
+
+.arte-space .slide.active{
+    opacity: 1;
+    z-index: 1;
+    transform: scale(1);
+}
+
+.arte-space .slide.is-prev,
+.arte-space .slide.is-next{
+    opacity: 0.5;
+    transform: scale(0.9);
+}
+
+.arte-space .slide.is-hidden{
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.arte-space .slide img{
+    display: block;
+    width: 100%;
+    max-width: 100%;
     height: auto;
     aspect-ratio: 1139.5 / 521;
-    transform: translate(calc(-50% + var(--drag-x)), -50%) scale(0.88);
-    opacity: 0;
-    z-index: 1;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-    will-change: transform, opacity;
-    pointer-events: none;
-}
-
-.as-slide img{
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    /* vertical-align: top; */
+    flex-shrink: 0;
+}
+
+.arte-space .slide .caption{
     display: block;
-    border-radius: 50px;
-}
-
-.as-slide.active{
-    opacity: 1;
-    transform: translate(calc(-50% + var(--drag-x)), -50%) scale(1);
-    z-index: 3;
-    pointer-events: none; /* 중앙 클릭 반응 없음 */
-}
-
-.as-slide.prev,
-.as-slide.next{
-    opacity: 0.5;
-    z-index: 2;
-    pointer-events: auto;
-    cursor: pointer;
-}
-
-.as-slide.prev{
-    transform: translate(calc(-50% - 46vw + var(--drag-x)), -50%) scale(0.88);
-}
-
-.as-slide.next{
-    transform: translate(calc(-50% + 46vw + var(--drag-x)), -50%) scale(0.88);
-}
-
-.as-slide.hidden{
-    opacity: 0;
-    pointer-events: none;
-}
-
-.as-images > h2{
-    max-width: var(--container-max);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: var(--container-pad);
-    padding-right: var(--container-pad);
-    margin: 0;
+    width: 100%;
     text-align: center;
-    box-sizing: border-box;
+    margin: 50px 0 0;
     line-height: 1.2;
+    box-sizing: border-box;
 }
 
-/* Tablet: 간격 줄이기 + scale 조금 증가 */
-@media (max-width: 1023px){
-    .as-slide{
-        width: min(1139.5px, 86vw);
+@media (prefers-reduced-motion: reduce){
+    .arte-space .slider-track{
+        transition: transform 0.2s ease;
     }
-    .as-slide.prev{
-        transform: translate(calc(-50% - 40vw + var(--drag-x)), -50%) scale(0.9);
-    }
-    .as-slide.next{
-        transform: translate(calc(-50% + 40vw + var(--drag-x)), -50%) scale(0.9);
-    }
-}
-
-/* Mobile: 중앙만 표시 */
-@media (max-width: 767px){
-    .as-slide{
-        width: min(1139.5px, 92vw);
-    }
-    .as-slide{
-        transform: translate(calc(-50% + var(--drag-x)), -50%) scale(0.92);
-    }
-    .as-slide.active{
-        transform: translate(calc(-50% + var(--drag-x)), -50%) scale(1);
-        opacity: 1;
-    }
-    .as-slide.prev,
-    .as-slide.next{
-        opacity: 0.5;
-        pointer-events: auto;
-        cursor: pointer;
-        transform: translate(calc(-50% + var(--drag-x)), -50%) scale(0.85);
-    }
-    .as-slide.prev{
-        transform: translate(calc(-50% - 34vw + var(--drag-x)), -50%) scale(0.85);
-    }
-    .as-slide.next{
-        transform: translate(calc(-50% + 34vw + var(--drag-x)), -50%) scale(0.85);
+    .arte-space .slide,
+    .arte-space .slide img,
+    .arte-space .slide .caption{
+        transition-duration: 0.2s;
     }
 }
 
@@ -2006,6 +2045,11 @@ p{ font-size: clamp(0.95rem, 1.15vw, 1.125rem); line-height: 1.6; }
 img{
     max-width: 100%;
     height: auto;
+}
+
+/* Content images only (photos): responsive radius */
+.img-radius{
+    border-radius: clamp(20px, 4vw, 50px);
 }
 
 /* Prevent any horizontal scroll */
@@ -2051,10 +2095,7 @@ body{
     flex: 1 1 clamp(160px, 24vw, 217px);
 }
 
-/* Gallery: scale with parent (width already fluid); keep radius responsive-safe */
-.as-slide img{
-    border-radius: 50px;
-}
+/* Gallery: keep radius in arte-space block (border-radius on .slide img) */
 
 /* =========================================================
    About alignment fix (FINAL override)

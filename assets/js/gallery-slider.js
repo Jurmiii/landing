@@ -1,167 +1,246 @@
+/**
+ * arte-space: clone 기반 무한 루프 (트랙 [cloneLast, ...reals, cloneFirst])
+ */
 (function () {
-  var slider = document.querySelector(".as-slider");
-  if (!slider) return;
+  var root = document.querySelector("[data-arte-slider]");
+  if (!root) return;
+  var slider = root;
 
-  var slides = Array.prototype.slice.call(slider.querySelectorAll(".as-slide"));
-  var caption = document.querySelector(".as-images > h2");
-  if (!slides.length) return;
+  var track = root.querySelector(".slider-track");
+  if (!track) return;
 
-  // Image order (space1~4) => title mapping
-  // - space1 is kept as-is from existing markup when possible
-  var titles = (function () {
-    var fallbackSpace1 = caption && caption.textContent ? caption.textContent.trim() : "";
-    return [
-      fallbackSpace1 || "리셉션 라운지",
-      "뷰티컨설팅라운지",
-      "프라이빗 케어룸",
-      "릴렉스 라운지",
-    ];
-  })();
+  var realSlides = [].slice.call(track.querySelectorAll(".slide"));
+  if (realSlides.length < 1) return;
 
-  var activeIndex = 0;
-  var intervalMs = 3500;
+  var realN = realSlides.length;
+  var firstEl = realSlides[0];
+  var lastEl = realSlides[realN - 1];
+  var cloneStart = lastEl.cloneNode(true);
+  var cloneEnd = firstEl.cloneNode(true);
+  cloneStart.setAttribute("data-clone", "start");
+  cloneEnd.setAttribute("data-clone", "end");
+  cloneStart.classList.add("slide--clone");
+  cloneEnd.classList.add("slide--clone");
+  cloneStart.removeAttribute("id");
+  cloneEnd.removeAttribute("id");
+  track.insertBefore(cloneStart, firstEl);
+  track.appendChild(cloneEnd);
+
+  var slides = [].slice.call(track.querySelectorAll(".slide"));
+  var n = slides.length;
+
+  var trackIndex = 1;
   var isDragging = false;
   var startX = 0;
-  var currentTranslate = 0;
-  var prevTranslate = 0;
-  var lastX = 0;
+  var dragX = 0;
+  var moveDist = 0;
   var ignoreClickUntil = 0;
+  var isJumping = false;
+  var autoSlide = null;
+  var intervalMs = 3000;
 
-  function mod(n, m) {
-    return ((n % m) + m) % m;
+  function getClientX(ev) {
+    if (ev.touches && ev.touches[0]) return ev.touches[0].clientX;
+    if (ev.changedTouches && ev.changedTouches[0]) return ev.changedTouches[0].clientX;
+    return ev.clientX;
   }
 
-  function applyClasses() {
-    var len = slides.length;
-    var prevIndex = mod(activeIndex - 1, len);
-    var nextIndex = mod(activeIndex + 1, len);
+  /**
+   * 활성 슬라이드 중심을 .slider(뷰포트) 기준 정확히 중앙에 맞춤.
+   * 트랙 좌표: c = offsetLeft + width/2 → translateX = W/2 - c (+ 드래그).
+   * getBoundingClientRect로도 동일: offset = slideL - contL - W/2 + w/2 → -offset
+   */
+  function updateTransform() {
+    if (!track || !slides[trackIndex]) return;
+    var container = slider;
+    var W = container.clientWidth;
+    if (W < 1) return;
+    var slide = slides[trackIndex];
+    var c = slide.offsetLeft + slide.offsetWidth * 0.5;
+    var t = W * 0.5 - c;
+    if (isDragging) t += dragX;
+    track.style.transform = "translate3d(" + t + "px,0,0)";
+  }
 
+  function applyVisualState() {
+    var ti = trackIndex;
     slides.forEach(function (el, i) {
-      el.classList.remove("active", "prev", "next", "hidden");
-      if (i === activeIndex) el.classList.add("active");
-      else if (i === prevIndex) el.classList.add("prev");
-      else if (i === nextIndex) el.classList.add("next");
-      else el.classList.add("hidden");
+      el.classList.remove("active", "is-prev", "is-next", "is-hidden");
+      if (i === ti) el.classList.add("active");
+      else if (i === ti - 1) el.classList.add("is-prev");
+      else if (i === ti + 1) el.classList.add("is-next");
+      else el.classList.add("is-hidden");
     });
+  }
 
-    if (caption) {
-      var title = titles[activeIndex];
-      if (!title) {
-        var img = slides[activeIndex].querySelector("img");
-        title = (img && img.alt) ? img.alt : "Gallery";
-      }
-      caption.textContent = title;
+  /**
+   * 클론 끝 ↔ 실제 인덱스로 점프할 때: transform만 즉시 갱신하고,
+   * active / is-hidden 전환은 같은 틱에서 반영(지연 시 한 프레임 opacity 0 = 깜빡임).
+   * rAF 2회는 track의 transition 복구용만 사용.
+   */
+  function setTrackIndexInstant(newIndex) {
+    isJumping = true;
+    slider.classList.add("is-instant-reposition");
+    var prev = track.style.transition;
+    track.style.transition = "none";
+    trackIndex = newIndex;
+    applyVisualState();
+    updateTransform();
+    track.offsetHeight;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        track.style.transition = prev || "";
+        isJumping = false;
+        slider.classList.remove("is-instant-reposition");
+      });
+    });
+  }
+
+  function onTrackTransitionEnd(ev) {
+    if (isJumping) return;
+    if (ev.target !== track) return;
+    if (ev.propertyName !== "transform") return;
+    if (isDragging) return;
+    if (trackIndex === 0) {
+      setTrackIndexInstant(realN);
+    } else if (trackIndex === n - 1) {
+      setTrackIndexInstant(1);
     }
   }
 
-  function prev() {
-    activeIndex = mod(activeIndex - 1, slides.length);
-    applyClasses();
+  function moveSlide(dir) {
+    if (isDragging) return;
+    if (isJumping) return;
+    trackIndex += dir;
+    trackIndex = Math.max(0, Math.min(n - 1, trackIndex));
+    applyVisualState();
+    updateTransform();
   }
 
-  function next() {
-    activeIndex = mod(activeIndex + 1, slides.length);
-    applyClasses();
+  function goToTrackIndex(tgt) {
+    if (isJumping) return;
+    var next = Math.max(0, Math.min(n - 1, tgt));
+    if (next === trackIndex) return;
+    trackIndex = next;
+    applyVisualState();
+    updateTransform();
   }
 
-  function setDragX(px) {
-    slider.style.setProperty("--drag-x", px + "px");
+  function stopAutoSlide() {
+    if (autoSlide == null) return;
+    clearInterval(autoSlide);
+    autoSlide = null;
   }
 
-  function stopDrag(reset) {
-    isDragging = false;
-    slider.classList.remove("dragging");
-    if (reset) setDragX(0);
-  }
-
-  applyClasses();
-  var timer = window.setInterval(next, intervalMs);
-
-  slider.addEventListener("click", function (e) {
-    if (Date.now() < ignoreClickUntil) return;
-    var target = e.target && e.target.closest ? e.target.closest(".as-slide") : null;
-    if (!target) return;
-    if (target.classList.contains("next")) next();
-    else if (target.classList.contains("prev")) prev();
-  });
-
-  /* Pause on hover/focus for accessibility */
-  function pause() {
-    if (!timer) return;
-    window.clearInterval(timer);
-    timer = null;
-  }
-  function resume() {
-    if (timer) return;
-    timer = window.setInterval(next, intervalMs);
-  }
-
-  slider.addEventListener("mouseenter", pause);
-  slider.addEventListener("mouseleave", resume);
-  slider.addEventListener("focusin", pause);
-  slider.addEventListener("focusout", resume);
-
-  function getPointFromEvent(ev) {
-    if (ev.touches && ev.touches[0]) return { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
-    if (ev.changedTouches && ev.changedTouches[0]) return { x: ev.changedTouches[0].clientX, y: ev.changedTouches[0].clientY };
-    return { x: ev.clientX, y: ev.clientY };
+  function startAutoSlide() {
+    if (autoSlide != null) return;
+    autoSlide = window.setInterval(function () {
+      moveSlide(1);
+    }, intervalMs);
   }
 
   function onStart(ev) {
-    var p = getPointFromEvent(ev);
+    if (ev.type === "mousedown" && ev.button !== 0) return;
     isDragging = true;
-    startX = lastX = p.x;
-    prevTranslate = 0;
-    currentTranslate = 0;
+    startX = getClientX(ev);
+    dragX = 0;
+    moveDist = 0;
     slider.classList.add("dragging");
-    pause();
+    if (track) track.style.cursor = "grabbing";
+    stopAutoSlide();
   }
 
   function onMove(ev) {
     if (!isDragging) return;
-    var p = getPointFromEvent(ev);
-    lastX = p.x;
-    var dx = lastX - startX;
-    currentTranslate = prevTranslate + dx;
-    setDragX(currentTranslate);
+    var x = getClientX(ev);
+    dragX = x - startX;
+    moveDist = Math.max(moveDist, Math.abs(dragX));
+    updateTransform();
     if (ev.cancelable) ev.preventDefault();
   }
 
-  function onEnd() {
-    if (!isDragging) return;
-    var threshold = Math.max(80, Math.round(slider.clientWidth * 0.12));
-    var movedDistance = currentTranslate - prevTranslate;
-
-    stopDrag(false);
-    ignoreClickUntil = Date.now() + 250;
-
-    // Snap to nearest (prev/next) if moved enough; otherwise return to center
-    if (movedDistance <= -threshold) {
-      next();
-    } else if (movedDistance >= threshold) {
-      prev();
+  function finishDrag() {
+    var thMove = Math.max(48, Math.round(slider.clientWidth * 0.1));
+    if (moveDist > 5) {
+      if (dragX <= -thMove) {
+        moveSlide(1);
+      } else if (dragX >= thMove) {
+        moveSlide(-1);
+      } else {
+        updateTransform();
+      }
+    } else {
+      updateTransform();
     }
-
-    // Animate back to center (or centered on new active)
-    prevTranslate = 0;
-    currentTranslate = 0;
-    setDragX(0);
-
-    resume();
+    dragX = 0;
+    ignoreClickUntil = Date.now() + 200;
+    startAutoSlide();
   }
 
-  /* Mouse */
-  slider.addEventListener("mousedown", function (ev) {
-    if (ev.button !== 0) return;
-    onStart(ev);
+  function stopDragging() {
+    if (!isDragging) return;
+    isDragging = false;
+    slider.classList.remove("dragging");
+    if (track) track.style.cursor = "grab";
+    finishDrag();
+  }
+
+  track.addEventListener("transitionend", onTrackTransitionEnd);
+
+  track.addEventListener("click", function (e) {
+    if (Date.now() < ignoreClickUntil) return;
+    if (moveDist > 5) return;
+    var el = e.target && e.target.closest ? e.target.closest(".slide") : null;
+    if (!el) return;
+    if (el.classList.contains("is-hidden")) return;
+    var i = slides.indexOf(el);
+    if (i < 0) return;
+    if (i === trackIndex) return;
+    if (i === trackIndex - 1) {
+      stopAutoSlide();
+      moveSlide(-1);
+      startAutoSlide();
+    } else if (i === trackIndex + 1) {
+      stopAutoSlide();
+      moveSlide(1);
+      startAutoSlide();
+    } else {
+      stopAutoSlide();
+      goToTrackIndex(i);
+      startAutoSlide();
+    }
   });
-  window.addEventListener("mousemove", onMove, { passive: false });
-  window.addEventListener("mouseup", onEnd);
 
-  /* Touch */
-  slider.addEventListener("touchstart", onStart, { passive: true });
-  slider.addEventListener("touchmove", onMove, { passive: false });
-  slider.addEventListener("touchend", onEnd);
-  slider.addEventListener("touchcancel", onEnd);
+  track.addEventListener("mousedown", onStart);
+  track.addEventListener("touchstart", onStart, { passive: true });
+
+  document.addEventListener("mousemove", onMove, { passive: false });
+  document.addEventListener("mouseup", stopDragging, false);
+  document.addEventListener("mouseleave", stopDragging, false);
+  window.addEventListener("blur", stopDragging);
+
+  document.addEventListener("touchmove", onMove, { passive: false, capture: true });
+  document.addEventListener("touchend", stopDragging, { passive: true, capture: true });
+  document.addEventListener("touchcancel", stopDragging, { passive: true, capture: true });
+
+  if (window.ResizeObserver) {
+    new ResizeObserver(function () {
+      updateTransform();
+    }).observe(root);
+  }
+  window.addEventListener("resize", function () {
+    updateTransform();
+  });
+  window.addEventListener("load", function () {
+    updateTransform();
+  });
+
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      trackIndex = 1;
+      applyVisualState();
+      updateTransform();
+      startAutoSlide();
+    });
+  });
 })();
-

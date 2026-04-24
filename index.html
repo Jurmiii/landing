@@ -14,11 +14,11 @@
     <header class="header_wrap">
         <nav class="nav  f3-color font-h3">
             <ul class="navi">
-                <li><a href="#">Program</a></li>
-                <li><a href="#">Before & After</a></li>
-                <li><a href="#">Care</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">Consultation</a></li>
+                <li><a href="#program">Program</a></li>
+                <li><a href="#before-after">Before & After</a></li>
+                <li><a href="#5-step_care">Care</a></li>
+                <li><a href="#arte-space">Gallery</a></li>
+                <li><a href="#visit-consultation">Consultation</a></li>
             </ul>
             <div class="menu">
                 <img src="assets/images/icon/menu.svg" alt="">
@@ -52,7 +52,7 @@
                 </div>
                     
                 <div class="kv-img">
-                    <img class="kv-mod" src="assets/images/kv_img.svg" alt="아르떼 에스테틱 모델이미지1">
+                    <img class="kv-mod img-radius" src="assets/images/kv_img.svg" alt="아르떼 에스테틱 모델이미지1">
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
     </section>
 
 <!-------------- program section -------------->
-    <section class="program">
+    <section id="program" class="program">
         <div class="pr__section">
             <div class="pr-wrap">
 
@@ -183,7 +183,7 @@
     </section>
 
 <!------------ before & after section ------------>
-    <section class="before-after">
+    <section id="before-after" class="before-after">
         <div class="ba__section">
             <div class="ba-wrap">
 
@@ -194,14 +194,14 @@
 
                 <div class="ba-items">
                     <div class="ba-item">
-                        <img src="assets/images/before.png" alt="Before 이미지">
-                        <p class="ba-text f1-color font-h2">
+                        <img class="img-radius" src="assets/images/before.png" alt="Before 이미지">
+                        <p class="ba-text f1-color font-h3">
                             군살이 쌓이고 라인이 무너진 바디,<br>부분적인 관리로는 변화가 어려웠습니다.
                         </p>
                     </div>
                     <div class="ba-item">
-                        <img src="assets/images/after.png" alt="After 이미지">
-                        <p class="ba-text f1-color font-h2">
+                        <img class="img-radius" src="assets/images/after.png" alt="After 이미지">
+                        <p class="ba-text f1-color font-h3">
                             어깨부터 하체까지 단계적으로 관리하여<br>전체적인 바디 밸런스와 라인이 정돈되었습니다.
                         </p>
                     </div>
@@ -221,7 +221,7 @@
     </section>
 
 <!-- 5-step care section -->
-    <section class="step-care">
+    <section id="5-step_care" class="step-care">
         <div class="sc__section">
             <div class="sc-wrap">
 
@@ -264,7 +264,7 @@
     </section>
 
 <!-- arte space section -->
-    <section class="arte-space">
+    <section id="arte-space" class="arte-space">
         <div class="as__section">
             <div class="as-wrap">
 
@@ -274,21 +274,28 @@
                 </div>
 
                 <div class="as-images">
-                    <ul class="as-slider" aria-label="Arte space gallery">
-                        <li class="as-slide">
-                            <img src="assets/images/space1.png" alt="리셉션 라운지">
-                        </li>
-                        <li class="as-slide">
-                            <img src="assets/images/space2.png" alt="케어 룸">
-                        </li>
-                        <li class="as-slide">
-                            <img src="assets/images/space3.png" alt="상담 공간">
-                        </li>
-                        <li class="as-slide">
-                            <img src="assets/images/space4.png" alt="대기 공간">
-                        </li>
-                    </ul>
-                    <h2 class="font-h2 f2-color">리셉션 라운지</h2>
+                    <div class="slider-wrapper">
+                        <div class="slider" data-arte-slider role="region" aria-roledescription="carousel" aria-label="Arte space gallery">
+                            <div class="slider-track">
+                                <div class="slide" data-idx="0" data-title="리셉션 라운지">
+                                    <img class="img-radius" src="assets/images/space1.png" alt="리셉션 라운지">
+                                    <p class="caption font-h2 f2-color">리셉션 라운지</p>
+                                </div>
+                                <div class="slide" data-idx="1" data-title="뷰티컨설팅라운지">
+                                    <img class="img-radius" src="assets/images/space2.png" alt="뷰티컨설팅라운지">
+                                    <p class="caption font-h2 f2-color">뷰티컨설팅라운지</p>
+                                </div>
+                                <div class="slide" data-idx="2" data-title="프라이빗 케어룸">
+                                    <img class="img-radius" src="assets/images/space3.png" alt="프라이빗 케어룸">
+                                    <p class="caption font-h2 f2-color">프라이빗 케어룸</p>
+                                </div>
+                                <div class="slide" data-idx="3" data-title="릴렉스 라운지">
+                                    <img class="img-radius" src="assets/images/space4.png" alt="릴렉스 라운지">
+                                    <p class="caption font-h2 f2-color">릴렉스 라운지</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -328,30 +335,30 @@
     </section>
 
 <!-- visit consultation section -->
-    <section class="visit-consulatation">
+    <section id="visit-consultation" class="visit-consulatation">
         <div class="vc__section">
             <div class="vc-wrap">
 
                 <div class="vc-bg">
                     <div class="vc-inner">
                         <div class="vc-title">
-                            <h1 class="f1-color font-h1">Visit Consultation</h1>
-                            <h2 class="f2-color font-h2">아르떼 에스테틱 예약 안내사항</h2>
+                            <h1 class="point-font font-h1">Visit Consultation</h1>
+                            <h2 class="point-font font-h2">아르떼 에스테틱 예약 안내사항</h2>
                         </div>
 
                         <div class="vc-db1">
                             <div class="db1">
-                                <label class="f1-color font-h3">이름</label>
+                                <label class="point-font font-h3">이름</label>
                                 <input class="db-color font-body" type="text" placeholder="이름을 입력해주세요.">
                             </div>
                             <div class="db2">
-                                <label class="f1-color font-h3">연락처</label>
+                                <label class="point-font font-h3">연락처</label>
                                 <input class="db-color font-body" type="text" placeholder="연락처를 입력해주세요.">
                             </div>
                         </div>
                         <div class="vc-db2">
                             <div class="db3">
-                                <label class="f1-color font-h3">상담종류</label>
+                                <label class="point-font font-h3">상담종류</label>
                                 <div class="select-wrap">
                                     <select class="db-color font-body">
                                         <option>선택해주세요.</option>
@@ -365,7 +372,7 @@
                                 </div>
                             </div>
                             <div class="db4">
-                                <label class="f1-color font-h3">케어 프로그램</label>
+                                <label class="point-font font-h3">케어 프로그램</label>
                                 <div class="select-wrap">
                                     <select class="db-color font-body">
                                         <option>관심 케어 프로그램을 선택해주세요.</option>
@@ -382,7 +389,7 @@
                         </div>
                         <div class="vc-db3">
                             <div class="db5">
-                                <label class="f1-color font-h3">방문일정</label>
+                                <label class="point-font font-h3">방문일정</label>
                                 <div class="select-wrap">
                                     <select class="db-color font-body">
                                         <option>방문 가능한 일정을 선택해주세요.</option>
@@ -400,14 +407,14 @@
                             <label class="checkbox-wrap">
                                 <input type="checkbox" required>
                                 <span class="checkmark"></span>
-                                <span class="agree-text db-color font-body">
+                                <span class="agree-text point-font font-body">
                                     개인정보의 수집, 이용에 동의합니다.
                                 </span>
                             </label>
                         </div>
 
                         <div class="vc-button">
-                            <button class="vc-btn point-font font-h3">
+                            <button class="vc-btn f1-color font-h3">
                                 맞춤 상담 예약
                             </button>
                         </div>
