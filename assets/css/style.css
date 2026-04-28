@@ -494,7 +494,7 @@ body.nav-open {
 
 /* program ticket */
 .ticket-list{
-    width: 56.0625rem;
+    width: min(56.0625rem, 100%);
     height: auto;
     display: flex;
     flex-direction: column;
@@ -520,13 +520,12 @@ body.nav-open {
     inset: 0;
     display: flex;
     align-items: flex-start;
-    padding: 40px clamp(20px, 5vw, 100px);
+    padding: clamp(60px, 6vw, 100px) clamp(20px, 5vw, 40px);
     box-sizing: border-box;
     z-index: 2;
     background-color: #fff;
     border-radius: 20px;
     border: 4px solid #EB5F85;
-    padding: 100px 40px;
 }
 
 .tic-medal{
@@ -564,6 +563,20 @@ body.nav-open {
     line-height: 1;
     gap: 20px;
     border-left: 1px solid #525252;
+}
+
+/* Program: prevent button/container from collapsing in flex layouts */
+.ticket-right{
+    /* allow right column to give space to left title on desktop */
+    flex-shrink: 1;
+}
+.btn{
+    flex-shrink: 0;
+    min-width: clamp(160px, 22vw, 200px);
+}
+.btn > button{
+    flex: 0 0 auto;
+    white-space: nowrap;
 }
 
 .ticket-left h2{
@@ -1476,6 +1489,11 @@ body.nav-open {
         text-align: center;
     }
 
+    /* mobile: remove the actual vertical line (border-left) */
+    .ticket-right{
+        border-left: none;
+    }
+
     .ticket-left{
         display: flex;
         flex-direction: column;
@@ -1595,8 +1613,23 @@ body.nav-open {
     background-size: contain;
     background-position: center;
     top: 0;
-    right: 8rem;
-    transform: translate(50%,-50%);
+    right: 7rem;
+    transform-origin: top right;
+    transform: translate(50%,-55%);
+}
+
+/* Program medal responsive scaling (premium uses .medal::after) */
+@media (max-width: 1024px){
+    .medal::after{
+        transform-origin: top right;
+        transform: translate(50%,-50%) scale(0.85);
+    }
+}
+@media (max-width: 768px){
+    .medal::after{
+        transform-origin: top right;
+        transform: translate(50%,-50%) scale(0.75);
+    }
 }
 
 
@@ -2081,13 +2114,63 @@ body{
     transform: translate(clamp(-34%, -22vw, -14%), -50%);
 }
 
-/* Program: ensure inner content shrinks with ticket */
-.ticket-content{
-    padding: clamp(18px, 3vw, 40px) clamp(16px, 4vw, 100px);
-    gap: clamp(10px, 2vw, 24px);
+/* Program: responsive overrides must NOT affect desktop size */
+@media (max-width: 1280px){
+    /* NOTE: 패딩은 "세로 전환(<=768)"에서만 모바일 값으로 변경한다.
+       769~1280 구간(노트북/태블릿 가로형)에서는 PC 가로형 패딩 톤을 유지. */
+    .ticket-content{
+        gap: clamp(12px, 2.5vw, 28px);
+    }
+
+    /* 가운데 영역(세로선 기준 간격)이 자연 수축하도록: 고정 % 폭 대신 flex 기반 */
+    .ticket-left{
+        width: auto;
+        flex: 1 1 0;
+        min-width: 0; /* 긴 텍스트가 있어도 flex 수축 가능 */
+    }
+    .ticket-right{
+        width: auto;
+        flex: 0 1 clamp(180px, 26vw, 280px);
+        gap: clamp(12px, 2vw, 20px);
+    }
+
+    /* 버튼 항상 중앙 정렬 */
+    .ticket-right .btn{
+        margin-inline: auto;
+    }
 }
-/* .ticket-left{ gap: clamp(6px, 1.2vw, 12px); } */
-.ticket-right{ gap: clamp(12px, 2vw, 20px); }
+
+/* Laptop/Tablet (가로형 유지 구간): padding은 모바일처럼 먼저 바뀌지 않게 고정 */
+@media (min-width: 769px) and (max-width: 1280px){
+    .ticket-content{
+        /* 상하 좁게, 좌우 넓게(PC 톤 유지) + 완만한 축소 */
+        padding: clamp(40px, 3vw, 52px) clamp(72px, 6vw, 96px);
+    }
+}
+
+/* Desktop (PC): restore original ticket sizing */
+@media (min-width: 1281px){
+    .ticket-list{ width: 56.0625rem; }
+    .ticket-content{
+        /* PC: 상하 좁게, 좌우 넓게 */
+        padding: 2.5rem 6rem;
+        gap: 24px;
+    }
+    /* 미세 비율 조정: 오른쪽을 살짝 줄이고, 왼쪽 제목 한 줄 확보 */
+    .ticket-left{ width: 64%; }
+    .ticket-right{
+        width: auto;
+        flex: 0 1 240px;
+    }
+}
+
+/* 모바일: padding을 40px 기준으로 유지 (너무 좁아지는 문제 해결) */
+@media (max-width: 768px){
+    .ticket-content{
+        padding: 40px;
+        gap: clamp(16px, 3vw, 24px);
+    }
+}
 
 /* Step-care: remove fixed feel, wrap smoothly */
 .sc-list li{
