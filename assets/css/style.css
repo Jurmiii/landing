@@ -1613,7 +1613,7 @@ body.nav-open {
     background-size: contain;
     background-position: center;
     top: 0;
-    right: 7rem;
+    right: 5rem;
     transform-origin: top right;
     transform: translate(50%,-55%);
 }
@@ -1628,7 +1628,7 @@ body.nav-open {
 @media (max-width: 768px){
     .medal::after{
         transform-origin: top right;
-        transform: translate(50%,-50%) scale(0.75);
+        transform: translate(50%,-46%) scale(0.75);
     }
 }
 
