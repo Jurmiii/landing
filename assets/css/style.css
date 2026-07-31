@@ -1,241 +1,9 @@
 @import url('common.css');
 
-/* =========================================================
-   Responsive foundation (override-only, keep existing rules)
-   - Breakpoints: PC(>=1280) / Notebook(1024~1279) / Tablet(768~1023) / Mobile(<=767)
-   - Common container: max-width 1244px; margin auto; padding clamp(16px,4vw,40px)
-========================================================= */
-:root{
-    --container-max: 1244px;
-    --container-pad: clamp(16px, 4vw, 40px);
-    --section-pad-y: clamp(60px, 10vw, 130px);
-    --radius-lg: clamp(24px, 4vw, 50px);
-}
-
-/* Common container rule across sections (no HTML change) */
-
-html{
-    scroll-behavior: smooth;
-}
-
-/* Normalize section vertical paddings to fluid values */
-.header_wrap{
-    padding-top: clamp(20px, 4vw, 40px);
-    padding-bottom: clamp(20px, 4vw, 40px);
-}
-.program,
-.before-after,
-.step-care,
-.arte-space{
-    padding-top: var(--section-pad-y);
-    padding-bottom: var(--section-pad-y);
-}
-
-/* Avoid double vertical padding where inner wraps already own spacing */
-.step-care,
-.arte-space{
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-/* Remove "double padding" from inner wraps that already had hardcoded px */
-.sc-wrap,
-.as-wrap,
-.la-wrap{
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: var(--section-pad-y);
-    padding-bottom: var(--section-pad-y);
-    box-sizing: border-box;
-}
-
-.vc-wrap{
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: clamp(48px, 8vw, 80px);
-    padding-bottom: clamp(48px, 8vw, 80px);
-}
-
-.vc-bg{
-    border-radius: var(--radius-lg);
-    padding: clamp(24px, 4vw, 50px) var(--container-pad);
-    box-sizing: border-box;
-}
-
-/* Existing rules sometimes set "padding: 0 clamp(20px,4vw,10px)" (max < min). Override safely. */
-.nav,
-.kv__section{
-    padding-left: var(--container-pad);
-    padding-right: var(--container-pad);
-}
-
-/* -------------------------------------
-   KV: mobile text above image via order
-------------------------------------- */
-@media (max-width: 767px){
-    .kv-wrap{
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .kv-text{ order: 1; align-items: center; }
-    .kv-img{ order: 2; width: 100%; max-width: min(596px, 92vw); margin-top: clamp(8px, 3vw, 16px); }
-    .kv-line{
-        width: 1px;
-        height: clamp(24px, 8vw, 40px);
-        margin: clamp(14px, 4vw, 20px) 0;
-    }
-}
-
-/* -------------------------------------
-   About (most important)
-   - Keep grid; keep background title absolute
-   - Use clamp + transform so it moves smoothly by range
-------------------------------------- */
-.about{
-    overflow-x: hidden;
-}
-
-.ab__section{
-    position: relative; /* anchor for absolute background title */
-    padding-top: var(--section-pad-y);
-    padding-bottom: var(--section-pad-y);
-    min-height: clamp(420px, 75svh, 851px);
-}
-
-/* Force background title to be absolute (do not remove absolute) */
-.ab-title{
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(clamp(-34%, -22vw, -14%), -50%);
-    width: max-content;
-    margin-left: 0; /* override previous negative margin approach */
-    z-index: 0;
-}
-.ab-title h1{
-    font-size: clamp(64px, 14vw, 250px);
-    line-height: 0.9;
-}
-
-/* Make the right content never overflow the grid */
-.ab-right{
-    min-width: 0;
-}
-.ab-img{
-    max-width: min(817px, 100%);
-}
-.ab-text{
-    margin-top: clamp(10px, 3vw, 35px);
-}
-
-/* Mobile spec (<=767px): 212px min-height + title 56px left/center, image top 30, text below 10, bottom padding 30 */
-@media (max-width: 767px){
-    .ab__section{
-        grid-template-columns: 1fr; /* mobile only: 1 column */
-        min-height: 212px;
-        padding-top: 30px;
-        padding-bottom: 30px;
-        row-gap: 10px;
-    }
-
-    .ab-title{
-        left: var(--container-pad);
-        top: 50%;
-        transform: translate(0, -50%);
-    }
-    .ab-title h1{
-        font-size: 56px;
-    }
-
-    .ab-right{
-        grid-column: 1;
-        align-items: flex-start;
-    }
-    .ab-img{
-        justify-content: flex-start;
-        margin-top: 30px;
-    }
-    .ab-text{
-        margin-top: 10px;
-        text-align: left;
-    }
-}
-
-/* -------------------------------------
-   Program
-   - Keep horizontal ticket through tablet
-   - Reduce absolute usage: layer with CSS grid instead of absolute inset
-   - Keep medal half-overlapped on top-right
-------------------------------------- */
-.ticket-premium,
-.ticket-basic{
-    display: grid;
-}
-.ticket-premium > .ticket-bg,
-.ticket-basic > .ticket-bg,
-.ticket-premium > .ticket-content,
-.ticket-basic > .ticket-content{
-    grid-area: 1 / 1;
-}
-
-/* ticket-content no longer relies on absolute positioning for desktop/tablet */
-@media (min-width: 768px){
-    .ticket-content{
-        position: relative;
-        inset: auto;
-        width: 100%;
-        height: 100%;
-    }
-
-    .tic-medal{
-        top: 0;
-        right: 0;
-        transform: translate(35%, -35%);
-    }
-}
-
-/* Mobile: keep existing vertical card behavior, but ensure medal overlaps top-right by half */
-@media (max-width: 767px){
-    .ticket-premium,
-    .ticket-basic{
-        max-width: min(360px, 100%);
-    }
-
-    .tic-medal{
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(35%, -35%);
-        margin: 0;
-        z-index: 4;
-    }
-}
-
-/* -------------------------------------
-   Header drawer: keep hover effects on PC, drawer on <=1024
-------------------------------------- */
-@media (min-width: 1025px){
-    .menu{ display: none; }
-    .navi{
-        position: static;
-        transform: none;
-        height: auto;
-        width: auto;
-        max-width: none;
-        padding: 0;
-        flex-direction: row;
-        align-items: center;
-        overflow: visible;
-        box-shadow: none;
-        background: transparent;
-    }
-}
-
 
 /* header */
 .header_wrap{
-    background-color: #fff;
+    background-color: #E5E5E3;
     padding: 40px 0;
     width: 100%;
 }
@@ -292,10 +60,9 @@ body.nav-open {
 
 /* kv section */
 .kv{
-    background-color: #fff;
+    background-color: #E5E5E3;
     width: 100%;
-    min-height: clamp(520px, 92vh, 937px);
-    min-height: clamp(520px, 92svh, 937px);
+    min-height: 937px;
 }
 
 .kv__section{
@@ -336,9 +103,9 @@ body.nav-open {
 /* kb line */
 .kv-line{
     width: 1px;
-    height: clamp(48px, 12vw, 98px);
+    height: 98px;
     background-color: rgba(0,0,0,0.4);
-    margin: clamp(24px, 5vw, 50px) 0;
+    margin: 50px 0;
 }
 
 /* kv image */
@@ -362,36 +129,29 @@ body.nav-open {
     position: relative;
     background-color: #fff;
     width: 100%;
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow: hidden;
 }
 
 .ab__section{
     position: relative;
-    grid-template-rows: minmax(0, auto);
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
     align-items: center;
     max-width: 1244px;
-    min-height: clamp(480px, 85vh, 851px);
-    min-height: clamp(480px, 85svh, 851px);
+    min-height: 851px;
     margin: 0 auto;
     padding: 130px 0;
     z-index: 1;
-    overflow: visible;
 }
 
-/* about title — 그리드에 참여해 섹션 너비와 함께 축소; 스패닝 셀 기준 %로 기존 -33% 오프셋 재현 */
+/* about title */
 .ab-title{
-    position: relative;
-    grid-column: 1 / -1;
-    grid-row: 1;
-    justify-self: start;
-    align-self: center;
-    width: max-content;
-    box-sizing: border-box;
-    margin-left: -50%;
+    position: absolute;
     font-family: 'KoPub Batang', serif;
     z-index: 0;
     pointer-events: none;
+    top: 20%;
+    left: -410px;
 }
 
 .ab-title h1{
@@ -401,14 +161,10 @@ body.nav-open {
 }
 
 .ab-right{
-    position: relative;
     grid-column: 2;
-    grid-row: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    z-index: 1;
-    min-width: 0;
 }
 
 /* about image */
@@ -417,6 +173,7 @@ body.nav-open {
     max-width: 817px;
     display: flex;
     justify-content: end;
+    grid-column: 2;
     z-index: 1;
 }
 
@@ -429,6 +186,8 @@ body.nav-open {
 
 /* about text */
 .ab-text{
+    grid-column: 2;
+    justify-self: end;
     margin-top: 35px;
     text-align: right;
     z-index: 1;
@@ -484,6 +243,11 @@ body.nav-open {
     line-height: 2;
 }
 
+.ticket-area{
+    width: 100%;
+    max-width: 897px;
+}
+
 .pr-tit{
     width: 100%;
     text-align: left;
@@ -494,21 +258,20 @@ body.nav-open {
 
 /* program ticket */
 .ticket-list{
-    width: min(56.0625rem, 100%);
-    height: auto;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
 .ticket-premium{
+    position: relative;
     width: 100%;
     max-width: 897px;
     margin: 0 auto;
-    margin-top: 75px;
 }
 
 .ticket-basic{
+    position: relative;
     width: 100%;
     max-width: 897px;
     margin: 0 auto;
@@ -520,12 +283,9 @@ body.nav-open {
     inset: 0;
     display: flex;
     align-items: flex-start;
-    padding: clamp(60px, 6vw, 100px) clamp(20px, 5vw, 40px);
+    padding: 40px clamp(20px, 5vw, 100px);
     box-sizing: border-box;
     z-index: 2;
-    background-color: #fff;
-    border-radius: 20px;
-    border: 4px solid #EB5F85;
 }
 
 .tic-medal{
@@ -536,11 +296,18 @@ body.nav-open {
     z-index: 4;
 }
 
+.ticket-bg{
+    position: relative;
+    width: 100%;
+    display: block;
+    z-index: 1;
+}
+
 .ticket-left{
     width: 60%;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 8px;
     text-align: left;
 }
 
@@ -555,28 +322,13 @@ body.nav-open {
 
 .ticket-right{
     width: auto;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     line-height: 1;
     gap: 20px;
-    border-left: 1px solid #525252;
-}
-
-/* Program: prevent button/container from collapsing in flex layouts */
-.ticket-right{
-    /* allow right column to give space to left title on desktop */
-    flex-shrink: 1;
-}
-.btn{
-    flex-shrink: 0;
-    min-width: clamp(160px, 22vw, 200px);
-}
-.btn > button{
-    flex: 0 0 auto;
-    white-space: nowrap;
+    height: 100%;
 }
 
 .ticket-left h2{
@@ -588,7 +340,7 @@ body.nav-open {
 .ticket-left ul{
     font-family: 'Pretendard';
     font-weight: 400;
-    line-height: 40px;
+    line-height: 1.5;
 }
 
 .left-ff{
@@ -597,22 +349,22 @@ body.nav-open {
 }
 
 .bf-num{
-    font-size: clamp(1.75rem, 3.2vw, 3.125rem);
+    font-size: 50px;
     color: #8C949A;
     text-decoration: line-through;
 }
 
 .bf-text{
-    font-size: clamp(0.875rem, 1.6vw, 1.25rem);
+    font-size: 20px;
     color: #8C949A;
 }
 
 .af-num{
-    font-size: clamp(2.5rem, 5vw, 4.375rem);
+    font-size: 70px;
 }
 
 .af-text{
-    font-size: clamp(1.25rem, 2.8vw, 2.5rem);
+    font-size: 40px;
 }
 
 
@@ -622,9 +374,8 @@ body.nav-open {
     padding: 0 20px;
     background-color: #EB5F85;
     display: flex;
-    width: 200px;
-    max-width: 100%;
-    height: clamp(52px, 10vw, 68px);
+    width: clamp(200px, 40%, 200px);
+    height: 68px;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
@@ -706,49 +457,48 @@ body.nav-open {
 .point{
     position: relative;
     width: 100%;
-    overflow: hidden;
 }
 
+.po__section{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0; 
+    z-index: 0;
+}
+
+.po__section img{
+    width: 100%;
+    object-fit: cover;
+}
 
 .po-wrap{
     position: relative;
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-    background-image: url(../images/point-bg.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top;
+    max-width: 1244px;
+    margin: auto;
     z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: clamp(72px, 18vw, 152px) clamp(16px, 4vw, 24px);
+    padding: 152px 0
 }
 
 /* point text */
 .point-text{
-    width: 100%;
-    margin: 0 auto;
-    padding: 0;
     text-align: center;
-    line-height: 1.4;
-}
-
-.point-text p{
-    margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 .text1{
-    font-size: clamp(1.5rem, 4.2vw, 3.125rem);
+    font-size: 3.125rem;
     font-family: 'Pretendard';
     font-weight: 100;
 }
 
 .text2{
-    font-size: clamp(1.65rem, 5vw, 3.75rem);
+    font-size: 3.75rem;
     font-family: 'Pretendard';
     font-weight: 500;
 }
@@ -799,28 +549,23 @@ body.nav-open {
 
 .sc-list li{
     position: relative;
-    width: min(217px, 100%);
-    max-width: 217px;
-    min-height: 242px;
-    height: auto;
-    padding-top: clamp(48px, 12vw, 60px);
-    padding-bottom: 12px;
+    width: 217px;
+    height: 242px;
+    padding-top: 60px;
     background: #FFF4F7;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     text-align: center;
-    flex: 0 1 217px;
-    box-sizing: border-box;
 }
 
 .sc-list li h2{
     position: absolute;
-    top: clamp(-36px, -6vw, -45px);
+    top: -45px;
     left: 50%;
     transform: translate(-50%);
-    width: clamp(72px, 18vw, 90px);
-    height: clamp(72px, 18vw, 90px);
+    width: 90px;
+    height: 90px;
     background-color: rgba(235, 95, 133, 0.6);
     border-radius: 50%;
     color: #fff;
@@ -834,9 +579,7 @@ body.nav-open {
 }
 
 .sc-list li img{
-    width: clamp(40px, 10vw, 50px);
-    height: auto;
-    border-radius: 0;
+    width: 50px;
     margin: 0 auto;
     margin-top: 20px;
 }
@@ -860,7 +603,7 @@ body.nav-open {
 
 .as-wrap{
     width: 100%;
-    padding: var(--section-pad-y) 0;
+    padding: 130px 0;
 }
 
 /* arte space title */
@@ -868,24 +611,27 @@ body.nav-open {
     text-align: center;
 }
 
-.as-title h1,
-.as-title h2{
-    margin: 0;
-}
-
 .as-title h1{
     font-family: 'KoPub Batang', serif;
-    line-height: 1.2;
 }
 
 .as-title h2{
     font-family: 'Pretendard';
     font-weight: 300;
-    line-height: 1.4;
-    margin-top: clamp(12px, 2vw, 20px);
+    line-height: 3.5;
 }
 
-/* arte-space .as-images: carousel rules in Gallery(arte-space) block */
+.as-images{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.as-images h2{
+    margin-top: 50px;
+}
 
 /* location arte section */
 .location-arte{
@@ -916,34 +662,18 @@ body.nav-open {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: clamp(16px, 3vw, 40px);
-    flex-wrap: nowrap;
-    box-sizing: border-box;
 }
 
 .la-map{
-    flex: 1 1 75%;
-    width: auto;
-    min-width: 0;
-    max-width: 75%;
+    width: 100%;
     margin: 0 auto;
 }
 
-.la-map img{
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
 .la-text{
-    flex: 0 0 25%;
     width: 25%;
-    max-width: 25%;
-    min-width: 0;
     flex-direction: column;
     line-height: 140%;
     font-family: 'Pretendard';
-    box-sizing: border-box;
 }
 
 .la-info{
@@ -981,7 +711,6 @@ body.nav-open {
 /* visit consultation section */
 .visit-consulatation{
     width: 100%;
-    background-color: #EB5F85;
 }
 
 .vc__section{
@@ -996,6 +725,9 @@ body.nav-open {
 .vc-bg{
     max-width: 1244px;
     margin: 0 auto;
+    background-color: #E5E5E3;
+    border-radius: 50px;
+    padding: 50px 105px;
 }
 
 /* visit consultation title */
@@ -1033,10 +765,7 @@ body.nav-open {
 
 .db3,
 .db4{
-    width: 100%;
-    max-width: 510px;
-    min-width: 0;
-    flex: 1 1 0;
+    width: 510px;
 }
 
 .vc-db3{
@@ -1046,6 +775,7 @@ body.nav-open {
 .db5{
     width: 100%;
     max-width: 1035px;
+    margin: 0 auto;
     margin-bottom: 35px;
 }
 
@@ -1075,13 +805,11 @@ body.nav-open {
 }
 
 .vc-db1 input{
-    width: 100%;
-    max-width: 510px;
+    width: 510px;
     height: 60px;
     padding: 10px;
     border: 1px solid #bfbfbf;
     background-color: #fff;
-    box-sizing: border-box;
 }
 
 .vc-db1,
@@ -1106,48 +834,6 @@ body.nav-open {
     gap: 10px;
 }
 
-.db1,
-.db2{
-    width: 100%;
-    max-width: 510px;
-    min-width: 0;
-    flex: 1 1 0;
-}
-
-/* checkbox (visit consultation) */
-.checkbox-wrap{
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    user-select: none;
-    position: relative; /* anchor hidden input */
-}
-
-.checkbox-wrap input{
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.checkmark{
-    position: relative; /* anchor for ::after */
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    box-sizing: border-box;
-    border-radius: 4px;
-    border: 1.5px solid #525252;
-    background: #fff;
-    flex: 0 0 auto;
-}
-
-.checkbox-wrap input:checked + .checkmark{
-    background: #fff;
-    border-color: #525252;
-}
-
 .checkbox-wrap input:checked + .checkmark::after{
     content: "";
     position: absolute;
@@ -1155,7 +841,7 @@ body.nav-open {
     top: 2px;
     width: 6px;
     height: 12px;
-    border: solid #525252;
+    border: solid#fff;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
@@ -1168,7 +854,7 @@ body.nav-open {
 .vc-btn{
     border-radius: 100px;
     padding: 40px 15px;
-    background-color: #fff;
+    background-color: #EB5F85;
     display: flex;
     width: clamp(200px, 100%, 1035px);
     height: 70px;
@@ -1196,17 +882,11 @@ body.nav-open {
 
 /* footer text */
 .foot-logo{
-    display: flex;
     flex-direction: column;
-    align-items: flex-start;
     justify-items: center;
     line-height: 2;
     font-family: 'Pretendard';
     font-weight: 400;
-}
-
-.foot-logo img{
-    height: auto;
 }
 
 .foot-info1,
@@ -1219,25 +899,6 @@ body.nav-open {
 
 /* Responsive - pc , ta , mo , mo*/
 @media(max-width:1280px){
-    .ba__section{
-        padding-left: clamp(16px, 3vw, 32px);
-        padding-right: clamp(16px, 3vw, 32px);
-        box-sizing: border-box;
-    }
-
-    .la-wrap{
-        padding-left: clamp(24px, 5vw, 100px);
-        padding-right: clamp(24px, 5vw, 100px);
-        box-sizing: border-box;
-    }
-
-    /* .sc__section, */
-    .as__section,
-    .foot__section{
-        padding-left: clamp(16px, 3vw, 40px);
-        padding-right: clamp(16px, 3vw, 40px);
-        box-sizing: border-box;
-    }
 
 }
 
@@ -1279,11 +940,20 @@ body.nav-open {
         box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1);
     }
 
+    .kv-section{
+        align-items: center;
+    }
+    
     .kv-wrap{
         /* padding: 0 15px 130px 15px; */
         gap: clamp(14px, 2vw, 28px);
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .ab__section{
+        grid-template-columns: 1fr 1.2fr;
+        padding: 80px 20px;
     }
 
     /* program — 태블릿: 간격·패딩만 축소, 가로 티켓 유지 */
@@ -1317,39 +987,6 @@ body.nav-open {
     .tic-line{
         margin: 0 clamp(12px, 2vw, 28px) 0 clamp(10px, 2vw, 16px);
     }
-
-    .la-content{
-        flex-wrap: wrap;
-    }
-
-    .la-map{
-        flex: 1 1 100%;
-        max-width: 100%;
-    }
-
-    .la-text{
-        flex: 1 1 100%;
-        width: 100%;
-        max-width: 36rem;
-        margin: 0 auto;
-    }
-
-    .sc-list ul{
-        flex-wrap: wrap;
-        justify-content: center;
-        row-gap: clamp(36px, 8vw, 48px);
-    }
-
-    .foot__section{
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: clamp(24px, 4vw, 40px);
-    }
-
-    .vc-bg{
-        padding-left: clamp(28px, 5vw, 105px);
-        padding-right: clamp(28px, 5vw, 105px);
-    }
 }
 
 @media(max-width:768px){
@@ -1374,10 +1011,17 @@ body.nav-open {
         font-size: 15px;
     }
 
+    .kv-section{
+        align-items: center;
+    }
+    
     .kv-wrap{
         flex-direction: column;
         align-items: center;
         text-align: center;
+        padding-bottom: 30px;
+        padding-left: 8px;
+        padding-right: 8px;
         gap: clamp(10px, 3vw, 20px);
     }
     
@@ -1398,6 +1042,32 @@ body.nav-open {
     
     .kv-img{
         width: 100%;
+    }
+
+    .ab__section{
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .ab__section{
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+    .ab-img{
+        grid-column: 1;
+        justify-self: center;
+        order: 1;
+    }
+
+    .ab-text{
+        justify-content: center;
+        order: 2;
+    }
+
+    .ab-title{
+        left: -50px;
+        top: 10%;
     }
 
     .ba-items{
@@ -1438,6 +1108,9 @@ body.nav-open {
         max-width: 340px;
         margin-left: auto;
         margin-right: auto;
+        background-image: url(../images/ticket-c.png);
+        background-repeat: no-repeat;
+        background-position: top center;
         background-size: 100% auto;
         padding: clamp(16px, 4vw, 24px);
         box-sizing: border-box;
@@ -1456,8 +1129,6 @@ body.nav-open {
         width: clamp(52px, 14vw, 80px);
         margin: 0 0 4px;
     }
-
-    
 
     .ticket-content{
         position: relative;
@@ -1489,11 +1160,6 @@ body.nav-open {
         text-align: center;
     }
 
-    /* mobile: remove the actual vertical line (border-left) */
-    .ticket-right{
-        border-left: none;
-    }
-
     .ticket-left{
         display: flex;
         flex-direction: column;
@@ -1510,710 +1176,82 @@ body.nav-open {
         margin-left: auto;
         margin-right: auto;
     }
-
-    .vc-db1,
-    .vc-db2{
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .db1,
-    .db2,
-    .db3,
-    .db4{
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .vc-db1 input{
-        max-width: 100%;
-    }
-
-    .foot__section{
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .foot-logo{
-        align-items: center;
-    }
-
-    .la-wrap{
-        padding-top: clamp(48px, 10vw, 130px);
-        padding-bottom: clamp(48px, 10vw, 130px);
-    }
 }    
 
-@media(max-width:480px){
-    /* About: PC와 동일한 2열 그리드·겹침 구조 유지, 좌우 여백만 유동 */
+@media(max-width:540px){
     .about{
-        overflow-x: hidden;
-        overflow-y: visible;
-    }
-
-    .ab__section{
-        padding: clamp(48px, 14vw, 130px) clamp(8px, 3vw, 16px);
-        box-sizing: border-box;
-    }
-}
-
-/* =========================================================
-   Responsive overrides (FINAL, placed at EOF to win cascade)
-========================================================= */
-:root{
-    --container-max: 1244px;
-    --container-pad: clamp(16px, 4vw, 40px);
-    --section-pad-y: clamp(60px, 10vw, 130px);
-    --radius-lg: clamp(24px, 4vw, 50px);
-}
-
-.nav,
-.kv__section,
-.ab__section,
-.pr__section,
-.ba__section,
-.sc__section,
-.as__section,
-.la__section,
-.vc__section,
-.foot__section{
-    max-width: var(--container-max);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: var(--container-pad);
-    padding-right: var(--container-pad);
-    box-sizing: border-box;
-}
-
-/* Fix invalid clamp usage in existing header/kv */
-.nav,
-.kv__section{
-    padding-left: var(--container-pad);
-    padding-right: var(--container-pad);
-}
-
-.header_wrap{
-    padding-top: clamp(20px, 4vw, 40px);
-    padding-bottom: clamp(20px, 4vw, 40px);
-}
-
-.program{
-    height: auto;
-    padding: var(--section-pad-y) 0;
-}
-
-.medal::after{
-    content: "";
-    width: 7.5rem;
-    height: 7.5rem;
-    position: absolute;
-    background-image: url(../images/medal.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    top: 0;
-    right: 5rem;
-    transform-origin: top right;
-    transform: translate(50%,-55%);
-}
-
-/* Program medal responsive scaling (premium uses .medal::after) */
-@media (max-width: 1024px){
-    .medal::after{
-        transform-origin: top right;
-        transform: translate(50%,-50%) scale(0.85);
-    }
-}
-@media (max-width: 768px){
-    .medal::after{
-        transform-origin: top right;
-        transform: translate(50%,-46%) scale(0.75);
-    }
-}
-
-
-.before-after{
-    padding-top: var(--section-pad-y);
-    padding-bottom: clamp(120px, 18vw, 260px); /* keep extra space before point section */
-}
-
-.sc-wrap,
-.as-wrap,
-.la-wrap{
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: var(--section-pad-y);
-    padding-bottom: var(--section-pad-y);
-    box-sizing: border-box;
-}
-
-.vc-wrap{
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: clamp(48px, 8vw, 80px);
-    padding-bottom: clamp(48px, 8vw, 80px);
-}
-
-/* KV: mobile text above image (order) */
-@media (max-width: 767px){
-    .kv-wrap{
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .kv-text{ order: 1; align-items: center; }
-    .kv-img{ order: 2; width: 100%; max-width: min(596px, 92vw); margin-top: clamp(8px, 3vw, 16px); }
-}
-
-/* Header: PC hover 유지 + 모바일 드로어 유지 */
-@media (min-width: 1025px){
-    .menu{ display: none; }
-    .navi{
-        position: static;
-        transform: none;
-        height: auto;
-        width: auto;
-        max-width: none;
-        padding: 0;
-        flex-direction: row;
-        align-items: center;
         overflow: visible;
-        box-shadow: none;
-        background: transparent;
-    }
-}
-
-/* About: absolute title + clamp/transform positioning */
-.ab__section{
-    position: relative;
-    padding-top: var(--section-pad-y);
-    padding-bottom: var(--section-pad-y);
-    min-height: clamp(420px, 75svh, 851px);
-}
-
-.ab-title{
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(clamp(-34%, -22vw, -14%), -50%);
-    width: max-content;
-    margin-left: 0;
-    z-index: 0;
-    pointer-events: none;
-}
-.ab-title h1{
-    font-size: clamp(64px, 14vw, 250px);
-    line-height: 0.9;
-}
-
-.ab-text{
-    margin-top: clamp(10px, 3vw, 35px);
-}
-
-@media (max-width: 767px){
-    .ab__section{
-        grid-template-columns: 1fr;
-        min-height: 212px;
-        padding-top: 30px;
         padding-bottom: 30px;
-        row-gap: 10px;
     }
+
+    .ab__section{
+        display: block;
+        width: 402px;
+        max-width: 100%;
+        height: 212px;
+        min-height: 212px;
+        margin: 0 auto;
+        padding: 0;
+        align-items: unset;
+        grid-template-columns: unset;
+        gap: 0;
+    }
+
+    .ab-right{
+        display: contents;
+    }
+
     .ab-title{
-        left: var(--container-pad);
+        position: absolute;
+        left: 0;
         top: 50%;
-        transform: translate(0, -50%);
+        transform: translateY(-50%);
+        z-index: 0;
+        pointer-events: none;
     }
+
     .ab-title h1{
         font-size: 56px;
     }
-    .ab-right{
-        grid-column: 1;
-        align-items: flex-start;
-    }
+
     .ab-img{
-        justify-content: flex-start;
-        margin-top: 30px;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        left: auto;
+        width: 200px;
+        height: 109px;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        display: block;
+        grid-column: unset;
+        justify-self: unset;
+        order: unset;
+        z-index: 1;
     }
-    .ab-text{
-        margin-top: 10px;
-        text-align: left;
-    }
-}
 
-/* -----------------------------
-   About: <=1024부터 배경 타이틀을 이미지 "위쪽"으로
-   - position 유지 (absolute)
-   - translate/clamp로 자연 이동
------------------------------ */
-@media (max-width: 1024px){
-    .ab-title{
-        top: clamp(18%, 18vw, 30%);
-        transform: translate(clamp(-18%, -14vw, -8%), -50%);
-    }
-}
-
-/* Program: reduce absolute dependency (grid layering), keep medal overlap */
-.ticket-premium,
-.ticket-basic{
-    display: grid;
-}
-.ticket-premium > .ticket-bg,
-.ticket-basic > .ticket-bg,
-.ticket-premium > .ticket-content,
-.ticket-basic > .ticket-content{
-    grid-area: 1 / 1;
-}
-
-@media (min-width: 768px){
-    .ticket-content{
-        position: relative;
-        inset: auto;
+    .ab-img img{
         width: 100%;
         height: 100%;
-        align-items: flex-start;
-        gap: clamp(10px, 2vw, 24px);
-        padding: clamp(18px, 3vw, 40px) clamp(16px, 4vw, 100px);
-        box-sizing: border-box;
+        object-fit: cover;
     }
-    .tic-medal{
-        top: 0;
-        right: 0;
-        /* 세로 기준 약 50% 걸치기 */
-        transform: translate(35%, -50%);
-    }
-}
 
-@media (max-width: 767px){
-    .ticket-premium,
-    .ticket-basic{
-        max-width: min(360px, 100%);
-    }
-    .tic-medal{
+    .ab-text{
         position: absolute;
-        top: 0;
+        top: 149px;
         right: 0;
-        transform: translate(35%, -50%);
+        left: auto;
+        width: auto;
+        max-width: 100%;
         margin: 0;
-        z-index: 4;
-    }
-}
-
-/* Program overflow fix: 티켓이 줄면 내부도 같이 축소/유지 */
-.ticket-content{
-    gap: clamp(10px, 2vw, 24px);
-}
-
-.ticket-right{
-    width: 30%;
-    flex: 0 1 clamp(180px, 26vw, 280px);
-    gap: clamp(12px, 2vw, 20px);
-}
-.tic-line{
-    margin: 0 clamp(10px, 2vw, 28px) 0 clamp(10px, 2vw, 20px);
-}
-.ticket-left h2{
-    line-height: 1.45;
-    word-break: keep-all;
-}
-.ticket-left ul{
-    overflow-wrap: anywhere;
-}
-.btn{
-    width: clamp(160px, 22vw, 200px);
-    padding: 0 clamp(14px, 2vw, 20px);
-}
-.arrow{
-    margin-left: clamp(10px, 2vw, 20px);
-}
-
-@media (max-width: 767px){
-    /* 모바일: 섹션 높이/여백 증가해서 티켓 2개가 잘리지 않도록 */
-    .program{
-        padding-top: clamp(60px, 14vw, 120px);
-        padding-bottom: clamp(90px, 18vw, 160px);
-    }
-}
-
-/* -----------------------------
-   Point: 컨테이너 축소에 맞춰 텍스트도 함께 자연 축소
------------------------------ */
-.point-text{
-    width: 100%;
-    /* max-width: min(980px, 100%); */
-    /* padding-left: clamp(8px, 2vw, 16px); */
-    /* padding-right: clamp(8px, 2vw, 16px); */
-    box-sizing: border-box;
-    word-break: keep-all;
-    overflow-wrap: anywhere;
-}
-
-/* -----------------------------
-   5-Step Care: tablet 이하 overflow/줄바꿈 안정화 + 카드 clamp 축소
------------------------------ */
-.sc-list{
-    overflow: hidden; /* keep */
-    padding-top: clamp(36px, 7vw, 48px);
-}
-.sc-list ul{
-    overflow: visible;
-    padding-left: 0;
-    padding-right: 0;
-}
-.sc-list li{
-    width: auto;
-    max-width: none;
-    min-width: clamp(160px, 20%, 217px);
-    flex: 1 1 clamp(160px, 20%, 217px);
-    border-radius: clamp(16px, 2vw, 20px);
-}
-
-.sc-list li h2{
-    top: clamp(-40px, -5vw, -28px);
-    left: 50%;
-    transform: translate(-50%);
-}
-@media (max-width: 1023px){
-    .sc-list ul{
-        flex-wrap: wrap;
-        justify-content: center;
-        row-gap: clamp(28px, 7vw, 48px);
-        column-gap: clamp(12px, 3vw, 20px);
-    }
-}
-
-/* -----------------------------
-   Gallery(arte-space): clone-loop carousel (.slider-wrapper > .slider > .slider-track)
------------------------------ */
-.arte-space .as__section{
-    max-width: none;
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.arte-space,
-.arte-space .as__section{
-    overflow-x: hidden;
-    overflow-y: visible;
-}
-
-.as-title{
-    max-width: var(--container-max);
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: clamp(32px, 5vw, 55px);
-    padding-left: var(--container-pad);
-    padding-right: var(--container-pad);
-    box-sizing: border-box;
-}
-
-.arte-space .as-images{
-    width: 100vw;
-    max-width: 100%;
-    position: relative;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    box-sizing: border-box;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0;
-    overflow-x: hidden;
-    line-height: 0;
-    height: auto;
-}
-
-.arte-space .slider-wrapper{
-    width: 100%;
-    min-height: 0;
-    height: auto;
-    overflow: hidden;
-    position: relative;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-.arte-space .slider{
-    width: 100%;
-    min-height: 0;
-    height: auto;
-    overflow: hidden;
-    position: relative;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    touch-action: none;
-    user-select: none;
-    -webkit-user-select: none;
-    /* 부모 as-images가 100vw 풀브리스 = 뷰포트 폭 */
-    max-width: 100%;
-}
-
-.arte-space .slider.dragging{
-    cursor: grabbing;
-}
-
-.arte-space .slider.dragging .slider-track{
-    transition: none;
-    cursor: grabbing;
-}
-
-/* 무한 루프 점프 시: 슬라이드 opacity/scale transition만 잠궈 "한 프레임 뒤" 페이드·점프로 보이지 않게 */
-.arte-space .slider.is-instant-reposition .slide{
-    transition: none;
-}
-
-.arte-space .slider-track{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    width: max-content;
-    max-width: none;
-    will-change: transform;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    transform: translate3d(0, 0, 0);
-    transition: transform 0.4s ease;
-    cursor: grab;
-    line-height: 0;
-    font-size: 0;
-}
-
-.arte-space .slider-track:active{
-    cursor: grabbing;
-}
-
-.arte-space .slide{
-    position: relative;
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: column;
-    align-items: stretch;
-    width: clamp(240px, 65vw, 1139.5px);
-    /* total gap: 10px ~ 30px (양쪽 합) */
-    margin: 0 clamp(5px, 1.5vw, 15px);
-    box-sizing: border-box;
-    overflow: visible;
-    min-width: 0;
-    flex-shrink: 0;
-    font-size: 1rem;
-    line-height: normal;
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
-    opacity: 0.5;
-    transform: scale(0.9);
-}
-
-.arte-space .slide.active{
-    opacity: 1;
-    z-index: 1;
-    transform: scale(1);
-}
-
-.arte-space .slide.is-prev,
-.arte-space .slide.is-next{
-    opacity: 0.5;
-    transform: scale(0.9);
-}
-
-.arte-space .slide.is-hidden{
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.arte-space .slide img{
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 1139.5 / 521;
-    object-fit: cover;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-user-drag: none;
-    /* vertical-align: top; */
-    flex-shrink: 0;
-}
-
-.arte-space .slide .caption{
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin: 50px 0 0;
-    line-height: 1.2;
-    box-sizing: border-box;
-}
-
-@media (prefers-reduced-motion: reduce){
-    .arte-space .slider-track{
-        transition: transform 0.2s ease;
-    }
-    .arte-space .slide,
-    .arte-space .slide img,
-    .arte-space .slide .caption{
-        transition-duration: 0.2s;
-    }
-}
-
-/* =========================================================
-   Global fluid system (override-only)
-   Goal: image / text / spacing shrink together (no solo scaling)
-========================================================= */
-
-
-/* Typography: apply clamp defaults to all headings/paragraphs (component classes still win) */
-h1{ font-size: clamp(2rem, 4.6vw, 5.125rem); line-height: 1.15; }
-h2{ font-size: clamp(1.25rem, 2.2vw, 2rem); line-height: 1.25; }
-h3{ font-size: clamp(1rem, 1.6vw, 1.5rem); line-height: 1.35; }
-p{ font-size: clamp(0.95rem, 1.15vw, 1.125rem); line-height: 1.6; }
-
-/* Images: unified responsive behavior */
-img{
-    max-width: 100%;
-    height: auto;
-}
-
-/* Content images only (photos): responsive radius */
-.img-radius{
-    border-radius: clamp(20px, 4vw, 50px);
-}
-
-/* Prevent any horizontal scroll */
-body{
-    overflow-x: hidden;
-}
-
-/* Spacing tokens */
-:root{
-    --space-1: clamp(8px, 1.2vw, 12px);
-    --space-2: clamp(12px, 2vw, 20px);
-    --space-3: clamp(16px, 3vw, 40px);
-    --space-4: clamp(24px, 5vw, 55px);
-}
-
-/* Normalize common gaps/paddings (keep PC max same) */
-.navi{ gap: var(--space-3); }
-.kv-wrap{ gap: var(--space-4); padding-bottom: clamp(40px, 10vw, 130px); }
-.ba-wrap{ gap: var(--space-4); }
-.ba-items{ gap: var(--space-2); }
-.ticket-list{ gap: var(--space-2); }
-.sc-list ul{ gap: var(--space-2); }
-
-/* About: title size + position naturally (already absolute) */
-.ab-title h1{
-    font-size: clamp(56px, 14vw, 250px);
-}
-.ab-title{
-    transform: translate(clamp(-34%, -22vw, -14%), -50%);
-}
-
-/* Program: responsive overrides must NOT affect desktop size */
-@media (max-width: 1280px){
-    /* NOTE: 패딩은 "세로 전환(<=768)"에서만 모바일 값으로 변경한다.
-       769~1280 구간(노트북/태블릿 가로형)에서는 PC 가로형 패딩 톤을 유지. */
-    .ticket-content{
-        gap: clamp(12px, 2.5vw, 28px);
+        padding: 0;
+        text-align: right;
+        grid-column: unset;
+        justify-self: unset;
+        justify-content: unset;
+        order: unset;
+        z-index: 1;
     }
 
-    /* 가운데 영역(세로선 기준 간격)이 자연 수축하도록: 고정 % 폭 대신 flex 기반 */
-    .ticket-left{
-        width: auto;
-        flex: 1 1 0;
-        min-width: 0; /* 긴 텍스트가 있어도 flex 수축 가능 */
-    }
-    .ticket-right{
-        width: auto;
-        flex: 0 1 clamp(180px, 26vw, 280px);
-        gap: clamp(12px, 2vw, 20px);
-    }
-
-    /* 버튼 항상 중앙 정렬 */
-    .ticket-right .btn{
-        margin-inline: auto;
-    }
-}
-
-/* Laptop/Tablet (가로형 유지 구간): padding은 모바일처럼 먼저 바뀌지 않게 고정 */
-@media (min-width: 769px) and (max-width: 1280px){
-    .ticket-content{
-        /* 상하 좁게, 좌우 넓게(PC 톤 유지) + 완만한 축소 */
-        padding: clamp(40px, 3vw, 52px) clamp(72px, 6vw, 96px);
-    }
-}
-
-/* Desktop (PC): restore original ticket sizing */
-@media (min-width: 1281px){
-    .ticket-list{ width: 56.0625rem; }
-    .ticket-content{
-        /* PC: 상하 좁게, 좌우 넓게 */
-        padding: 2.5rem 6rem;
-        gap: 24px;
-    }
-    /* 미세 비율 조정: 오른쪽을 살짝 줄이고, 왼쪽 제목 한 줄 확보 */
-    .ticket-left{ width: 64%; }
-    .ticket-right{
-        width: auto;
-        flex: 0 1 240px;
-    }
-}
-
-/* 모바일: padding을 40px 기준으로 유지 (너무 좁아지는 문제 해결) */
-@media (max-width: 768px){
-    .ticket-content{
-        padding: 40px;
-        gap: clamp(16px, 3vw, 24px);
-    }
-}
-
-/* Step-care: remove fixed feel, wrap smoothly */
-.sc-list li{
-    width: clamp(160px, 24vw, 217px);
-    flex: 1 1 clamp(160px, 24vw, 217px);
-}
-
-/* Gallery: keep radius in arte-space block (border-radius on .slide img) */
-
-/* =========================================================
-   About alignment fix (FINAL override)
-   - Background title (.ab-title) stays absolute and unchanged
-   - Center only: image + text block inside .ab-right
-   - Must be placed at file end to beat earlier rules/media queries
-========================================================= */
-.about .ab__section .ab-right{
-    justify-self: center;
-    align-self: center;
-    align-items: center;
-    width: 100%;
-}
-.about .ab__section .ab-img{
-    justify-content: center;
-    margin-inline: auto;
-}
-.about .ab__section .ab-text{
-    width: 100%;
-    text-align: center;
-}
-
-/* =========================================================
-   Step-care card circle clipping fix (FINAL override)
-   - Keep existing HTML / classnames
-   - Clip the circle by card overflow in all breakpoints
-========================================================= */
-.sc-list li{
-    position: relative;
-    overflow: hidden;
-}
-
-.sc-list li h2{
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, -50%);
 }
